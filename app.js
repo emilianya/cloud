@@ -165,6 +165,6 @@ var http = require('http');
 
 const httpServer = http.createServer(app);
 
-httpServer.listen(88, () => {
-	console.log('HTTP Server running on port 88');
+httpServer.listen(8888, () => {
+	console.log('HTTP Server running on port 8888');
 });
