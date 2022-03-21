@@ -64,10 +64,10 @@ function popupMid(req, res, next) {
 	next()
 }
 
-/*app.get('/login', function(req, res) {
-	let user = req.isAuthenticated() ? req.user._id ? req.user : req.user[0] : null
-	res.render(__dirname + '/public/login.ejs', {user: user, redirect: req.session.redirectTo != undefined && req.session.redirectTo.length > 1 ? true : false});
-});*/
+app.get('/', (req, res) => {
+	res.render('index.ejs')
+});
+
 app.get('/login', (req, res) => {
 	res.render(`${__dirname}/public/login.ejs`, {csrfToken: req.csrfToken()})
 });
