@@ -65,7 +65,7 @@ function popupMid(req, res, next) {
 }
 
 app.get('/', (req, res) => {
-	res.render('index.ejs')
+	res.render(`${__dirname}/public/login.ejs`)
 });
 
 app.get('/login', (req, res) => {
