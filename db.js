@@ -78,12 +78,9 @@ function deleteUser(profile, callback) {
 }
 
 module.exports = {
-	findOrCreate,
+	login,
+	createAccount,
 	changeUsername,
 	getUser,
-	deleteUser,
-	listEmails,
-	resetPopup,
-	checkPopup,
-	acceptPopup
+	deleteUser
 }
