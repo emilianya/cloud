@@ -6,7 +6,7 @@
   <body>
     <form action="/login/password" method="post">
     <input type="hidden" name="_csrf" value="<%=csrfToken %>">
-    <input type="text" name="email" placeholder="Email">
+    <input type="text" name="username" placeholder="Email">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" class="button button-blue" value="Login">
     <% if (messages?.error) { %><br><span class="text-red-800"><%=messages.error %></span> <% } %>

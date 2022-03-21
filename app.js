@@ -22,12 +22,10 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-var scopes = ['identify', 'email'];
-var prompt = 'consent'
 app.set("view egine", "ejs")
 
-passport.use(new LocalStrategy(function verify(email, password, cb) {
-	db.login(email, function(err, data) {
+passport.use(new LocalStrategy(function verify(username, password, cb) {
+	db.login(username, function(err, data) {
 	  if (err) { return cb(err); }
 	  if (!data) { return cb(null, false, { message: 'Incorrect email address.' }); }
 	  crypto.pbkdf2(password, data.salt, 310000, 32, 'sha256', function(err, hashedInput) {
