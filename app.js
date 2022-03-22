@@ -97,6 +97,28 @@ app.post('/login/password', passport.authenticate('local', {
 	failureFlash: true
 }));
 
+app.get('/admin', checkAuth, (req, res) => { 
+	let user = req.user._id ? req.user : req.user[0]
+	db.getUser(user._id, user => {
+		if(!user.admin) return res.status(403).send("You do not have permission to access this page.")
+		res.render(__dirname + '/public/admin.ejs', {user: user, csrfToken: req.csrfToken()});
+	})
+})
+
+app.post('/admin', checkAuth, (req, res) => {
+	let user = req.user._id ? req.user : req.user[0]
+	db.getUser(user._id, user => {
+		if(!user.admin) return res.status(403).send({error: "You do not have permission to do this.", success: null})
+		switch (req.body.action) {
+			case "createInvite":
+				db.createInvite(user, invite => {
+					res.send({error: null, success: invite})
+				})
+				break;
+		}
+	})
+})
+
 app.get("/profile", checkAuth, popupMid, function (req, res) {
 	let user = req.isAuthenticated() ? req.user._id ? req.user : req.user[0] : null
 	res.render(__dirname + '/public/profile.ejs', {user: user});

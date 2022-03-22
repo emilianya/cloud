@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Administration panel</title>
+        <link rel="stylesheet" href="/resources/style.css">
+    </head>
+    <body class="bg-gray-900">
+        <data data-csrfToken="<%=csrfToken %>" id="data"></data>
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden m-5 max-w-screen-md">
+            <p class="font-bold">Invitation creator</p><br>
+            <div class="w-1/2 h-5 bg-gray-400" id="inviteOutput">
+                
+            </div>
+            <button class="btn btn-blue" onclick="createInvite()">Create new invite</button>
+        </div>
+    </body>
+    <script>
+        let csrf = document.getElementById("data").getAttribute("data-csrfToken");
+        function createInvite() {
+            fetch('/admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _csrf: csrf,
+                    action: 'createInvite'
+                })
+            }).then(res => res.json()).then(res => {
+                if (res.error) {
+                    console.log("server encountered error")
+                    console.error(res.error)
+                    return document.getElementById("inviteOutput").textContent = res.error.error += "\nSee console for full error";
+                }
+                document.getElementById("inviteOutput").textContent = res.success;
+            });
+        }
+    </script>
+</html>
