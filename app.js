@@ -112,7 +112,7 @@ app.post('/admin', checkAuth, (req, res) => {
 		switch (req.body.action) {
 			case "createInvite":
 				db.createInvite(user, invite => {
-					res.send({error: null, success: invite})
+					res.send(invite)
 				})
 				break;
 		}
