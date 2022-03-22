@@ -72,6 +72,10 @@ app.get('/login', (req, res) => {
 	res.render(`${__dirname}/public/login.ejs`, {csrfToken: req.csrfToken()})
 });
 
+app.get('/register', (req, res) => {
+	res.render(`${__dirname}/public/register.ejs`, {csrfToken: req.csrfToken()})
+});
+
 
 app.post('/login/password', passport.authenticate('local', {
 	successReturnToOrRedirect: '/profile',
