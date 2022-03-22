@@ -6,10 +6,11 @@
   <body>
     <form action="/create_account" method="post">
     <input type="hidden" name="_csrf" value="<%=csrfToken %>">
-    <input type="text" name="username" placeholder="Username">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <input type="text" name="invite" placeholder="Invitation code">
+    <input type="text" name="username" placeholder="Username"><br>
+    <input type="email" name="email" placeholder="Email"><br>
+    <input type="password" name="password" placeholder="Password"><br>
+    <input type="password" name="password2" placeholder="Confirm password"><br>
+    <input type="text" name="invite" placeholder="Invitation code"><br>
     <input type="submit" class="button button-blue" value="Login">
     <% if (messages?.error) { %><br><span class="text-red-800"><%=messages.error %></span> <% } %>
     </form>

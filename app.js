@@ -76,6 +76,13 @@ app.get('/register', (req, res) => {
 	res.render(`${__dirname}/public/register.ejs`, {csrfToken: req.csrfToken()})
 });
 
+app.post("/create_account", (req, res) => {
+	if(!req.body.email.includes("@") || !req.body.email.includes(".")) return res.send("Invalid email address");
+	if(req.body.username.trim().length < 3) return res.send("Username must be at least 3 characters long");
+	if(req.body.password.trim().length < 8) return res.send("Password must be at least 8 characters long");
+	if(req.body.password !== req.body.password2) return res.send("Passwords do not match");
+	res.send(JSON.stringify(req.body))
+})
 
 app.post('/login/password', passport.authenticate('local', {
 	successReturnToOrRedirect: '/profile',
