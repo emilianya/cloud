@@ -11,7 +11,7 @@
 }
 
 .button-dark {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-black bg-button-dark;
+    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-white bg-button-dark;
 }
 
 .login {
