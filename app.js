@@ -81,6 +81,15 @@ app.post("/create_account", (req, res) => {
 	if(req.body.username.trim().length < 3) return res.send("Username must be at least 3 characters long");
 	if(req.body.password.trim().length < 8) return res.send("Password must be at least 8 characters long");
 	if(req.body.password !== req.body.password2) return res.send("Passwords do not match");
+	let salt = crypto.randomBytes(16);
+	crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
+		db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
+			//data tells us if it errored or worked
+			if(data.error) return res.send(data.error);
+			if(data.success) return res.send("Account created successfully"); //replace with automatic login later
+		});
+		res.sendStatus(200);
+	});
 	res.send(JSON.stringify(req.body))
 })
 

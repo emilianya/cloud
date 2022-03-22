@@ -10,7 +10,7 @@ var User
 var Code
 db.once('open', function() {
   const userSchema = new mongoose.Schema({
-	primaryEmail: String,
+	email: String,
 	username: String,
     passwordHash: Buffer,
     salt: Buffer
@@ -37,14 +37,19 @@ function login(username, callback) {
     });
 }
 
-function createAccount(username, password, salt) {
+function createAccount(email, username, password, salt, cb) {
 	let user = new User({
+		email: email,
         username:username,
         passwordHash:password,
         salt:salt
     })
     user.save(function (err, user) {
-        if (err) return console.error(err);
+        if (err) {
+			cb({error: err, success: null})
+			return console.error(err);
+		}
+		return cb({error: null, success: true})
     });
 }
 
