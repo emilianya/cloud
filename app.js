@@ -88,9 +88,7 @@ app.post("/create_account", (req, res) => {
 			if(data.error) return res.send(data.error);
 			if(data.success) return res.send("Account created successfully"); //replace with automatic login later
 		});
-		res.sendStatus(200);
 	});
-	res.send(JSON.stringify(req.body))
 })
 
 app.post('/login/password', passport.authenticate('local', {
