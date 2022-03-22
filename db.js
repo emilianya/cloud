@@ -100,7 +100,7 @@ function createInvite(creator, cb) {
 	  createdAt: Date,
 	  usedAt: Date
 	*/
-	let code = crypto.randomBytes(6).toString();
+	let code = crypto.randomBytes(6).toString("hex");
 	Invite.count({code: code}, (err, count) => {
 		if (count > 0) {
 			return createInvite(creator, cb)
