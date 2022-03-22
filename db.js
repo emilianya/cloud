@@ -120,11 +120,57 @@ function createInvite(creator, cb) {
 	})
 }
 
+function checkInvite(code, cb) {
+	Invite.findOne({code: code}, (err, res) => {
+		if(!res) return cb({error: "invalid", success: null})
+		if(err) {
+			cb({error: err, success: null})
+			return console.error(err);
+		}
+		if (res.usedAt || res.usedBy) return cb({error: "used", success: null})
+		cb({error: null, success: true})
+	})
+}
+
+function useCode(code, user, cb) {
+	Invite.findOne({code: code}, (err, res) => {
+		if(!res) return cb("invalid")
+		if(err) {
+			cb(err)
+			return console.error(err);
+		}
+		if (res.usedAt || res.usedBy) return cb("used")
+		res.usedBy = user._id
+		res.usedAt = new Date()
+		res.save(function (err, invite) {
+			if (err) {
+				cb(err)
+				return console.error(err);
+			}
+			cb(null)
+		});
+	})
+}
+
+function checkEmail(email, cb) {
+	User.findOne({email:email}, (err, res) => {
+		if (err) {
+			cb(true)
+			return console.error(err);
+		}
+		if(res) return cb("used")
+		cb(null)
+	})
+}
+
 module.exports = {
 	login,
 	createInvite,
 	createAccount,
 	changeUsername,
 	getUser,
-	deleteUser
+	deleteUser,
+	checkInvite,
+	useCode,
+	checkEmail
 }

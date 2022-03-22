@@ -77,18 +77,37 @@ app.get('/register', (req, res) => {
 });
 
 app.post("/create_account", (req, res) => {
-	if(!req.body.email.includes("@") || !req.body.email.includes(".")) return res.send("Invalid email address");
-	if(req.body.username.trim().length < 3) return res.send("Username must be at least 3 characters long");
-	if(req.body.password.trim().length < 8) return res.send("Password must be at least 8 characters long");
-	if(req.body.password !== req.body.password2) return res.send("Passwords do not match");
-	let salt = crypto.randomBytes(16);
-	crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
-		db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
-			//data tells us if it errored or worked
-			if(data.error) return res.send(data.error);
-			if(data.success) return res.send("Account created successfully"); //replace with automatic login later
-		});
-	});
+	if(!req.body.email.includes("@") || !req.body.email.includes(".")) return res.status(400).send("Invalid email address");
+	if(req.body.username.trim().length < 3) return res.status(400).send("Username must be at least 3 characters long");
+	if(req.body.password.trim().length < 8) return res.status(400).send("Password must be at least 8 characters long");
+	if(req.body.password !== req.body.password2) return res.status(400).send("Passwords do not match");
+	db.checkInvite(req.body.invite, res => {
+		if(res.error) {
+			if(res.error == "used") return res.status(400).send("Invite code has already been used");
+			if(res.error == "invalid") return res.status(400).send("Invite code is not valid");
+			return res.status(500).send("Internal server error, please try again later");
+		}
+		db.useCode(req.body.invite, user, res => {
+			if (res) {
+				if(res == "used") return res.status(400).send("Invite code has already been used");
+				if(res == "invalid") return res.status(400).send("Invite code is not valid");
+			}
+			db.checkEmail(req.body.email, res => {
+				if (res) {
+					if (res == "used") return res.status(400).send("An account is already registered to this account");
+					return res.status(500).send("Internal server error, please try again later");
+				}
+				let salt = crypto.randomBytes(16);
+				crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
+					db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
+						//data tells us if it errored or worked
+						if(data.error) return res.status(500).send(data.error);
+						if(data.success) return res.sendStatus(200) //replace with automatic login later
+					});
+				});
+			})
+		})
+	})
 })
 
 app.post('/login/password', passport.authenticate('local', {
