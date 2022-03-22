@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require("dotenv").config();
 mongoose.connect(process.env.MONGODB_HOST);
+const crypto = require("crypto");
 //const nodemailer = require("nodemailer");
 //deal with email later
 
