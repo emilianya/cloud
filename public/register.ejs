@@ -3,7 +3,7 @@
 	<title>register</title>
 	<link rel="stylesheet" href="/resources/style.css">
   </head>
-  <body>
+  <body class="bg-gray-900">
 	<form id="registrationForm">
 	<input type="hidden" name="_csrf" value="<%=csrfToken %>">
 	<input type="text" name="username" placeholder="Username" required><br>
@@ -13,12 +13,53 @@
 	<input type="text" name="invite" placeholder="Invitation code" required><br>
 	<input type="submit" class="button button-blue" value="Login">
 	<% if (messages?.error) { %><br><span class="text-red-800"><%=messages.error %></span> <% } %>
+	<span class="text-red-800" id="error"></span>
 	</form>
   </body>
   <script>
 	document.getElementById("registrationForm").onsubmit = (e) => {
 		e.preventDefault()
-
+		fetch('/create_account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _csrf: csrf,
+					username: document.getElementById("registrationForm").username.value,
+					email: document.getElementById("registrationForm").email.value,
+					password: document.getElementById("registrationForm").password.value,
+					password2: document.getElementById("registrationForm").password2.value,
+					invite: document.getElementById("registrationForm").invite.value
+                })
+            }).then(res => {
+               switch(res.status) {
+					case 400:
+						res.text().then(text => {
+							document.getElementById("error").textContent = text
+						})
+					   break;
+					case 500:
+						document.getElementById("error").textContent = "Server encountered an error, please try again later"
+						break;
+					case 200:
+						fetch('/login/password', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								_csrf: csrf,
+								username: document.getElementById("registrationForm").email.value,
+								password: document.getElementById("registrationForm").password.value
+							})
+						}).then(res => {
+							if (!res.status == 200) return document.getElementById("error").textContent = "Your account has been created, but we had an issue logging you in."
+							window.location.pathname = "/profile"
+						});
+					break;
+			   }
+        });
 	}
   </script>
 </html>
