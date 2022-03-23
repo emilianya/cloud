@@ -9,7 +9,6 @@ require("dotenv").config();
 var cookieParser = require('cookie-parser')
 var flash = require('express-flash')
 const csrf = require("csurf")
-var bodyParser = require('body-parser');
 const MongoDBStore = require("connect-mongodb-session")(session);
 var store = new MongoDBStore({
 	uri: process.env.MONGODB_HOST,
@@ -55,7 +54,6 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
-app.use(bodyParser())
 app.use(fileUpload())
 //app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
@@ -176,10 +174,10 @@ app.get('/upload', (req, res) => {
 app.post('/upload', (req, res) => {
 	console.log(req.body)
 	console.log(req.files)	
-	req.files.forEach(async file => {
-		await file.mv(`/share/${file.name}`)
-		res.sendStatus(200);
-	})
+	//req.files.forEach(async file => {
+	await req.files.sampleFile.mv(`/share/${file.name}`)
+	res.sendStatus(200);
+	//})
 })
 
 app.post("/delete", checkAuth, function(req, res) {
