@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
 	  cb(null, '/share/wcloud')
 	},
 	filename: function (req, file, cb) {
-		db.createFile(req.user._id ? req.user : req.user[0], file.originalname, file.size, res => {
+		db.createFile(req.user._id ? req.user : req.user[0], file.originalname, file.mimetype, file.size, res => {
 			if (res.error) return cb(res.error)
 			cb(null, res.name)
 		}) // this creates an entry in the database for the file to store the uploader, size, date and name, and supplies multer with the filename consisting of _id.extension
@@ -256,6 +256,7 @@ app.get("/file/:id", (req, res) => {
 			if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
 			if(req.user._id ? req.user._id : req.user[0]._id != file.uploadedBy) return res.status(403).send("You do not have permission to access this file.")
 		}
+		res.contentType(file.mime);
 		res.sendFile(`/share/wcloud/${file.fileName}`)
 	})
 })

@@ -27,6 +27,7 @@ db.once('open', function() {
 		size: Number,
 		uploadedBy: String,
 		uploadedAt: Date,
+		mime: String,
 		persistent: Boolean
 	  });
 	File = mongoose.model('File', fileSchema);
@@ -183,10 +184,11 @@ function checkEmail(email, cb) {
 	})
 }
 
-function createFile(user, originalFileName, size, cb) {
+function createFile(user, originalFileName, mime, size, cb) {
 	let file = new File({
 		originalName: originalFileName,
 		size: size,
+		mime, mime,
 		uploadedBy: user._id,
 		uploadedAt: new Date()
 	})
