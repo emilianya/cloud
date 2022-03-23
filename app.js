@@ -226,7 +226,7 @@ function checkAuth(req, res, next) {
 function checkUploadAuth(req, res, next) {
 	let user = req.isAuthenticated() ? req.user._id ? req.user : req.user[0] : null
 	if(user) return next();
-	if(!req.body.uploadKey) return res.sendStatus(403);
+	if(!req.headers["authentication"]) return res.sendStatus(403);
 	db.checkUploadKey(req.headers["authentication"], user => {
 		if(!user) return res.sendStatus(403);
 		req.user = user;
