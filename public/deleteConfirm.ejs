@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  >
+<title>delete account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body style="filter: blur(0px); transition: filter 0.2s ease-out;">
+    <div id="content">
+        <form method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+            <h1>You're about to delete your account.</h1>
+            <p>You will lose your subscription, and it cannot be restored! We will not refund you for any purchases made</p>
+            <input type="submit" value="I'm sure about this."> <input type="button" value="Wait, cancel!" id="poopoo"/>
+        </form>
+    </div>
+</body>
+<script>
+    function blur(px) {
+        document.querySelector("body").style.filter = "blur(" + px + "px)"
+    }
+    document.querySelector("input[type=submit]").addEventListener("click", function() {blur("30")})
+    document.querySelector("#poopoo").onclick = function() {
+        history.back();
+        setTimeout(() => {
+            document.location.pathname = "/";
+        }, 300);
+    };
+</script>
+</html>
