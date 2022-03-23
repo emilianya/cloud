@@ -41,7 +41,7 @@ db.once('open', function() {
 }  repurpose this code from vukkybox later */
 
 function login(email, callback) {
-    User.findOne({email: email}, function (err, user) {
+    User.findOne({email: email.toLowerCase()}, function (err, user) {
         if (err) return (callback(err, null));
         callback(null, user);
     });
