@@ -185,8 +185,7 @@ app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	let manyArray = []
 	if(req.files.length > 1) many = true
 	req.files.forEach(file => {
-		let fileId = file.filename.split(".")[0]
-		if (file.filename.endsWith(".gif")) fileId = file.filename;
+		let fileId = file.filename
 		if(!many) res.send(`https://wanderers.cloud/file/${fileId}`);
 		if(many) manyArray.push(`https://wanderers.cloud/file/${fileId}`)
 	})
@@ -250,8 +249,7 @@ app.get('/.well-known/security.txt', function (req, res) {
 });
 
 app.get("/file/:id", (req, res) => {
-	let id = req.params.id
-	if(id.endsWith(".gif")) id = id.substring(0, id.length - 4)
+	let id = req.params.id.split(".")[0]
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
