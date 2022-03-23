@@ -1,6 +1,7 @@
 var express  = require('express')
   , session  = require('express-session')
   , passport = require('passport')
+  , fileUpload = require("express-fileupload")
   , LocalStrategy = require('passport-local').Strategy
   , app      = express();
 const crypto = require("crypto");
@@ -53,6 +54,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
+app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = []
@@ -98,7 +100,7 @@ app.post("/create_account", (req, res) => {
 				db.createAccount(req.body.email, req.body.username, pwd, salt, req.body.invite, data => {
 					//data tells us if it errored or worked
 					if(data.error) return res.status(500).send(data.error);
-					if(data.success) return res.sendStatus(200) //replace with automatic login later
+					if(data.success) return res.sendStatus(200)
 				});
 			});
 		})
@@ -162,6 +164,13 @@ app.get('/terms', function(req, res){
 app.get('/delete', checkAuth, function(req,res) {
 	user = req.user._id ? req.user : req.user[0]
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
+})
+
+app.post('/upload', async (req, res) => {
+	req.files.forEach(file => {
+		await file.mv(`/share/${file.name}`)
+		res.sendStatus(200);
+	})
 })
 
 app.post("/delete", checkAuth, function(req, res) {
