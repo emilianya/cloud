@@ -185,7 +185,7 @@ function createFile(user, originalFileName, size, cb) {
 	let file = new File({
 		originalName: originalFileName,
 		size: size,
-		uploadedBy: user._id,
+		uploadedBy: user._id.toString(),
 		uploadedAt: new Date()
 	})
 	file.save(function (err, doc) {
