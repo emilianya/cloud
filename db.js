@@ -185,7 +185,7 @@ function createFile(user, originalFileName, size, cb) {
 	let file = new File({
 		originalName: originalFileName,
 		size: size,
-		uploadedBy: user._id.toString(),
+		uploadedBy: user._id,
 		uploadedAt: new Date()
 	})
 	file.save(function (err, doc) {
@@ -199,6 +199,13 @@ function createFile(user, originalFileName, size, cb) {
 	})
 }
 
+function checkUploadKey(key, cb) {
+	User.findOne({uploadKey: key}, (err, user) => {
+		if (err) console.error(err);
+		cb(user);
+	})
+}
+
 module.exports = {
 	login,
 	createInvite,
@@ -209,5 +216,6 @@ module.exports = {
 	checkInvite,
 	useCode,
 	checkEmail,
-	createFile
+	createFile,
+	checkUploadKey
 }

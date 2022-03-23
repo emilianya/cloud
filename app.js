@@ -181,7 +181,7 @@ app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs")
 })
 
-app.post('/upload', upload.any(), async (req, res) => {
+app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	req.files.forEach(file => {
 		console.log(file)
 	})	
@@ -221,6 +221,17 @@ function checkAuth(req, res, next) {
 	if(user) return next();
 	req.session.redirectTo = req.path;
 	res.redirect(`/login`)
+}
+
+function checkUploadAuth(req, res, next) {
+	let user = req.isAuthenticated() ? req.user._id ? req.user : req.user[0] : null
+	if(user) return next();
+	if(!req.body.uploadKey) return req.sendStatus(403);
+	db.checkUploadKey(req.body.uploadKey, user => {
+		if(!user) return res.sendStatus(403);
+		req.user = user;
+		return next();
+	});
 }
 
 app.use(function (err, req, res, next) {
