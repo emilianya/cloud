@@ -9,6 +9,7 @@ require("dotenv").config();
 var cookieParser = require('cookie-parser')
 var flash = require('express-flash')
 const csrf = require("csurf")
+var bodyParser = require('body-parser');
 const MongoDBStore = require("connect-mongodb-session")(session);
 var store = new MongoDBStore({
 	uri: process.env.MONGODB_HOST,
@@ -54,6 +55,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
+app.use(bodyParser())
 app.use(fileUpload())
 //app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
