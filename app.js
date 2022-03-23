@@ -77,6 +77,7 @@ app.get('/register', (req, res) => {
 });
 
 app.post("/create_account", (req, res) => {
+	let user = req.user._id ? req.user : req.user[0]
 	if(!req.body.email.includes("@") || !req.body.email.includes(".")) return res.status(400).send("Invalid email address");
 	if(req.body.username.trim().length < 3) return res.status(400).send("Username must be at least 3 characters long");
 	if(req.body.password.trim().length < 8) return res.status(400).send("Password must be at least 8 characters long");
