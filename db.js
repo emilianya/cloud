@@ -139,7 +139,7 @@ function checkInvite(code, cb) {
 	})
 }
 
-function useCode(code, user) {
+function useCode(code, user, cb) {
 	Invite.findOne({code: code}, (err, res) => {
 		if(!res) return cb("invalid")
 		if(err) {
