@@ -166,8 +166,8 @@ app.get('/delete', checkAuth, function(req,res) {
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
 })
 
-app.post('/upload', async (req, res) => {
-	req.files.forEach(file => {
+app.post('/upload', (req, res) => {
+	req.files.forEach(async file => {
 		await file.mv(`/share/${file.name}`)
 		res.sendStatus(200);
 	})
