@@ -203,6 +203,7 @@ function createFile(user, originalFileName, size, cb) {
 function checkUploadKey(key, cb) {
 	User.findOne({uploadKey: key}, (err, user) => {
 		if (err) console.error(err);
+		console.log(user)
 		cb(user);
 	})
 }
