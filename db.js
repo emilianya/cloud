@@ -188,10 +188,14 @@ function createFile(user, originalFileName, size, cb) {
 		uploadedBy: user._id,
 		uploadedAt: new Date()
 	})
-	file.save(function (err, file) {
-		file.fileName = file._id.toString() + path.extname(originalFileName)
-		file.save()
-		cb(file.fileName)
+	file.save(function (err, doc) {
+		if(err) {
+			cb({error: err})
+			return console.error(err);
+		}
+		doc.fileName = doc._id.toString() + path.extname(originalFileName)
+		doc.save()
+		cb({name: doc.fileName})
 	})
 }
 
