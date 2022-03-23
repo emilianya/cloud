@@ -23,8 +23,8 @@ db.once('open', function() {
 	const fileSchema = new mongoose.Schema({
 		originalName: String,
 		fileName: String,
-		size: Buffer,
-		uploadedBy: Buffer,
+		size: Number,
+		uploadedBy: String,
 		uploadedAt: Date,
 		persistent: Boolean
 	  });
