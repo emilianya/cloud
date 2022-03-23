@@ -1,10 +1,11 @@
 <html>
   <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>register</title>
 	<link rel="stylesheet" href="/resources/style.css">
   </head>
   <body class="bg-gray-900">
-	<form id="registrationForm">
+	<form id="registrationForm" class="mt-20p text-center">
 	<input type="hidden" name="_csrf" value="<%=csrfToken %>" id="csrf">
 	<input type="text" name="username" placeholder="Username" required><br>
 	<input type="email" name="email" placeholder="Email" required><br>
@@ -19,6 +20,8 @@
   <script>
 	let csrf = document.getElementById("csrf").value;
 	document.getElementById("registrationForm").onsubmit = (e) => {
+		document.getElementById("error").textContent = "";
+		if (document.getElementById("registrationForm").password.value != document.getElementById("registrationForm").password2.value) return document.getElementById("error").textContent = "Passwords do not match"
 		e.preventDefault()
 		fetch('/create_account', {
                 method: 'POST',

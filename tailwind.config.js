@@ -9,6 +9,9 @@ module.exports = {
     extend: {
       colors: {
         'button-dark': '#3c3c45'
+      },
+      margin: {
+        "20p": "20%"
       }
     },
   },
