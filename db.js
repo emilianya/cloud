@@ -64,7 +64,8 @@ function createAccount(email, username, password, salt, invite, cb) {
 		email: email,
         username:username,
         passwordHash:password,
-        salt:salt
+        salt:salt,
+		uploadKey: crypto.randomBytes(16).toString("hex")
     })
     user.save(function (err, user) {
         if (err) {

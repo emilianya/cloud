@@ -1,1 +1,16 @@
-<%=JSON.stringify(user) %>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="/resources/style.css">
+  </head>
+  <body class="bg-gray-900">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden m-5 max-w-screen-md">
+        <p class="font-bold">Your profile</p><br>
+        <p><%=user.username %></p>
+        <p><%=user.email %></p>
+        <p class="blur-2xl hover:blur-none"><%=user.uploadKey %></p>
+        <a href="/delete" class="text-blue-600">Delete account</a>
+    </div>
+  </body>
+</html>
