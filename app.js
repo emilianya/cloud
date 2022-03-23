@@ -93,20 +93,14 @@ app.post("/create_account", (req, res) => {
 				if(resp.error == "invalid") return res.status(400).send("Invite code is not valid");
 				return res.status(500).send("Internal server error, please try again later");
 			}
-			db.useCode(req.body.invite, user, resp => {
-				if (resp) {
-					if(resp == "used") return res.status(400).send("Invite code has already been used");
-					if(resp == "invalid") return res.status(400).send("Invite code is not valid");
-				}
-				let salt = crypto.randomBytes(16);
-				crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
-					db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
-						//data tells us if it errored or worked
-						if(data.error) return res.status(500).send(data.error);
-						if(data.success) return res.sendStatus(200) //replace with automatic login later
-					});
+			let salt = crypto.randomBytes(16);
+			crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
+				db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
+					//data tells us if it errored or worked
+					if(data.error) return res.status(500).send(data.error);
+					if(data.success) return res.sendStatus(200) //replace with automatic login later
 				});
-			})
+			});
 		})
 	})
 })

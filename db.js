@@ -47,7 +47,7 @@ function login(email, callback) {
     });
 }
 
-function createAccount(email, username, password, salt, cb) {
+function createAccount(email, username, password, salt, invite, cb) {
 	let user = new User({
 		email: email,
         username:username,
@@ -59,7 +59,14 @@ function createAccount(email, username, password, salt, cb) {
 			cb({error: err, success: null})
 			return console.error(err);
 		}
-		return cb({error: null, success: true})
+		useCode(invite, user, ccb => {
+			// useCode was initially designed to be used differently, but i was really tired when i did that and it would realistically never be able to work like that
+			if(ccb) {
+				User.deleteOne({_id: user._id});
+				return cb({error: ccb, success: null})
+			}
+			return cb({error: null, success: true})
+		})
     });
 }
 
@@ -132,7 +139,7 @@ function checkInvite(code, cb) {
 	})
 }
 
-function useCode(code, user, cb) {
+function useCode(code, user) {
 	Invite.findOne({code: code}, (err, res) => {
 		if(!res) return cb("invalid")
 		if(err) {
