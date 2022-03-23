@@ -1,9 +1,10 @@
 var express  = require('express')
   , session  = require('express-session')
   , passport = require('passport')
-  , fileUpload = require("express-fileupload")
+  , multer = require("multer")
   , LocalStrategy = require('passport-local').Strategy
   , app      = express();
+const upload = multer({ dest: '/share/uploads' })
 const crypto = require("crypto");
 require("dotenv").config();
 var cookieParser = require('cookie-parser')
@@ -54,8 +55,6 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
-app.use(fileUpload())
-//app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload"]
@@ -171,11 +170,11 @@ app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs")
 })
 
-app.post('/upload', async (req, res) => {
+app.post('/upload', upload.single("sampleFile"), async (req, res) => {
 	console.log(req.body)
-	console.log(req.files)	
+	console.log(req)	
 	//req.files.forEach(async file => {
-	await req.files.sampleFile.mv(`/share/${file.name}`)
+	//await req.files.sampleFile.mv(`/share/${file.name}`)
 	res.sendStatus(200);
 	//})
 })
