@@ -170,9 +170,10 @@ app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs")
 })
 
-app.post('/upload', upload.single("sampleFile"), async (req, res) => {
-	console.log(req.body)
-	console.log(req)	
+app.post('/upload', upload.any(), async (req, res) => {
+	req.files.forEach(file => {
+		console.log(file)
+	})	
 	//req.files.forEach(async file => {
 	//await req.files.sampleFile.mv(`/share/${file.name}`)
 	res.sendStatus(200);
