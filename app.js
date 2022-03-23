@@ -171,7 +171,7 @@ app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs")
 })
 
-app.post('/upload', (req, res) => {
+app.post('/upload', async (req, res) => {
 	console.log(req.body)
 	console.log(req.files)	
 	//req.files.forEach(async file => {
