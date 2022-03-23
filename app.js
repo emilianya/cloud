@@ -57,7 +57,7 @@ app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
 app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
-	let csrfWhitelist = []
+	let csrfWhitelist = ["/upload"]
 	if(!csrfWhitelist.includes(req.url)) return res.send("Couldn't verify Cross Site Request Forgery prevention")
 	if(csrfWhitelist.includes(req.url)) return next()
 })
