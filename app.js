@@ -83,7 +83,7 @@ app.post("/create_account", (req, res) => {
 	if(req.body.password !== req.body.password2) return res.status(400).send("Passwords do not match");
 	db.checkEmail(req.body.email, resp => {
 		if (resp) {
-			if (resp == "used") return res.status(400).send("An account is already registered to this account");
+			if (resp == "used") return res.status(400).send("An account is already registered to this email address");
 			return res.status(500).send("Internal server error, please try again later");
 		}
 		db.checkInvite(req.body.invite, resp => {
