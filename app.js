@@ -54,7 +54,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
-app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
+app.use(fileUpload())
+//app.use(fileUpload({fileSize: 10 * 1024 * 1024 * 1024, useTempFiles: true, tempFileDir: '/share/temp'}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload"]
@@ -172,7 +173,7 @@ app.get('/upload', (req, res) => {
 
 app.post('/upload', (req, res) => {
 	console.log(req.body)
-	console.log(req.files)
+	console.log(req.files)	
 	req.files.forEach(async file => {
 		await file.mv(`/share/${file.name}`)
 		res.sendStatus(200);
