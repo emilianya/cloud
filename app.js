@@ -182,13 +182,15 @@ app.get('/upload', (req, res) => {
 })
 
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
+	let many = false
+	let manyArray = []
+	if(req.files.length > 1) many = true
 	req.files.forEach(file => {
-		console.log(file)
-	})	
-	//req.files.forEach(async file => {
-	//await req.files.sampleFile.mv(`/share/${file.name}`)
-	res.sendStatus(200);
-	//})
+		let fileId = file.filename.split(".").splice(file.filename.split(".").length, 1).join(".")
+		if(!many) res.send(`https://wanderers.cloud/file/${fileId}`);
+		if(many) manyArray.push(`https://wanderers.cloud/file/${fileId}`)
+	})
+	if (many) res.send(manyArray);
 })
 
 app.post("/delete", checkAuth, function(req, res) {
