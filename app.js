@@ -81,21 +81,21 @@ app.post("/create_account", (req, res) => {
 	if(req.body.username.trim().length < 3) return res.status(400).send("Username must be at least 3 characters long");
 	if(req.body.password.trim().length < 8) return res.status(400).send("Password must be at least 8 characters long");
 	if(req.body.password !== req.body.password2) return res.status(400).send("Passwords do not match");
-	db.checkEmail(req.body.email, res => {
-		if (res) {
-			if (res == "used") return res.status(400).send("An account is already registered to this account");
+	db.checkEmail(req.body.email, resp => {
+		if (resp) {
+			if (resp == "used") return res.status(400).send("An account is already registered to this account");
 			return res.status(500).send("Internal server error, please try again later");
 		}
-		db.checkInvite(req.body.invite, res => {
-			if(res.error) {
-				if(res.error == "used") return res.status(400).send("Invite code has already been used");
-				if(res.error == "invalid") return res.status(400).send("Invite code is not valid");
+		db.checkInvite(req.body.invite, resp => {
+			if(resp.error) {
+				if(resp.error == "used") return res.status(400).send("Invite code has already been used");
+				if(resp.error == "invalid") return res.status(400).send("Invite code is not valid");
 				return res.status(500).send("Internal server error, please try again later");
 			}
-			db.useCode(req.body.invite, user, res => {
-				if (res) {
-					if(res == "used") return res.status(400).send("Invite code has already been used");
-					if(res == "invalid") return res.status(400).send("Invite code is not valid");
+			db.useCode(req.body.invite, user, resp => {
+				if (resp) {
+					if(resp == "used") return res.status(400).send("Invite code has already been used");
+					if(resp == "invalid") return res.status(400).send("Invite code is not valid");
 				}
 				let salt = crypto.randomBytes(16);
 				crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
