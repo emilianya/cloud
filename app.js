@@ -10,9 +10,8 @@ const storage = multer.diskStorage({
 	},
 	filename: function (req, file, cb) {
 		db.createFile(req.user._id ? req.user : req.user[0], file.originalname, file.size, res => {
-			console.log(res)
 			if (res.error) return cb(res.error)
-			cb(null, res.filename)
+			cb(null, res.name)
 		}) // this creates an entry in the database for the file to store the uploader, size, date and name, and supplies multer with the filename consisting of _id.extension
 	}
 })
