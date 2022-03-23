@@ -95,7 +95,7 @@ app.post("/create_account", (req, res) => {
 			}
 			let salt = crypto.randomBytes(16);
 			crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', (err, pwd) => {
-				db.createAccount(req.body.email, req.body.username, pwd, salt, data => {
+				db.createAccount(req.body.email, req.body.username, pwd, salt, req.body.invite, data => {
 					//data tells us if it errored or worked
 					if(data.error) return res.status(500).send(data.error);
 					if(data.success) return res.sendStatus(200) //replace with automatic login later
