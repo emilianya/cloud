@@ -166,6 +166,10 @@ app.get('/delete', checkAuth, function(req,res) {
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
 })
 
+app.get('/upload', (req, res) => {
+	res.render(__dirname + "/public/upload.ejs")
+})
+
 app.post('/upload', (req, res) => {
 	console.log(req.body)
 	console.log(req.files)
