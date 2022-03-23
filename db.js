@@ -17,7 +17,8 @@ db.once('open', function() {
 	  username: String,
 	  passwordHash: Buffer,
 	  salt: Buffer,
-	  admin: Boolean
+	  admin: Boolean,
+	  uploadKey: String
 	});
 	User = mongoose.model('User', userSchema);
 	const fileSchema = new mongoose.Schema({
