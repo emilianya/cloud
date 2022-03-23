@@ -247,6 +247,17 @@ app.get('/.well-known/security.txt', function (req, res) {
     res.send("Contact: mailto:contact@wanderers.cloud");
 });
 
+app.get("/file/:id", (req, res) => {
+	db.getFile(req.params.id, file => {
+		if(!file) return res.status(404).send("File not found or error occurred")
+		if(file.private) {
+			if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
+			if(req.user._id ? req.user._id : req.user[0]._id != file.uploadedBy) return res.status(403).send("You do not have permission to access this file.")
+		}
+		res.sendFile(`/share/wcloud/${file.fileName}`)
+	})
+})
+
 app.get('*', function(req, res){
 	res.status(404).render(`${__dirname}/public/404.ejs`);
 });

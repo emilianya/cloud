@@ -203,8 +203,17 @@ function createFile(user, originalFileName, size, cb) {
 function checkUploadKey(key, cb) {
 	User.findOne({uploadKey: key}, (err, user) => {
 		if (err) console.error(err);
-		console.log(user)
 		cb(user);
+	})
+}
+
+function getFile(fileId, cb) {
+	File.findOne({_id: fileId}, (err, doc) => {
+		if(err) {
+			cb(null)
+			return console.error(err);
+		}
+		cb(doc)
 	})
 }
 
@@ -219,5 +228,6 @@ module.exports = {
 	useCode,
 	checkEmail,
 	createFile,
-	checkUploadKey
+	checkUploadKey,
+	getFile
 }
