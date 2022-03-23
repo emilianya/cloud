@@ -269,6 +269,10 @@ app.get("/test", (req, res) => {
 	res.sendFile(`${__dirname}/public/test.gif`)
 })
 
+app.get("/gif", (req, res) => {
+	res.sendFile(`${__dirname}/public/test.gif`)
+})
+
 app.get('*', function(req, res){
 	res.status(404).render(`${__dirname}/public/404.ejs`);
 });
