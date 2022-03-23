@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 require("dotenv").config();
 mongoose.connect(process.env.MONGODB_HOST);
 const crypto = require("crypto");
+const path = require("path");
 //const nodemailer = require("nodemailer");
 //deal with email later
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 var User
+var File
 var Invite
 db.once('open', function() {
 	const userSchema = new mongoose.Schema({
@@ -18,6 +20,15 @@ db.once('open', function() {
 	  admin: Boolean
 	});
 	User = mongoose.model('User', userSchema);
+	const fileSchema = new mongoose.Schema({
+		originalName: String,
+		fileName: String,
+		size: Buffer,
+		uploadedBy: Buffer,
+		uploadedAt: Date,
+		persistent: Boolean
+	  });
+	File = mongoose.model('File', fileSchema);
 	const inviteSchema = new mongoose.Schema({
 	  createdBy: String,
 	  usedBy: String,
@@ -170,6 +181,20 @@ function checkEmail(email, cb) {
 	})
 }
 
+function createFile(user, originalFileName, size, cb) {
+	let file = new File({
+		originalName: originalFileName,
+		size: size,
+		uploadedBy: user._id,
+		uploadedAt: new Date()
+	})
+	file.save(function (err, file) {
+		file.fileName = file._id.toString() + path.extname(originalFileName)
+		file.save()
+		cb(file.fileName)
+	})
+}
+
 module.exports = {
 	login,
 	createInvite,
@@ -179,5 +204,6 @@ module.exports = {
 	deleteUser,
 	checkInvite,
 	useCode,
-	checkEmail
+	checkEmail,
+	createFile
 }

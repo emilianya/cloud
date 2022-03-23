@@ -4,7 +4,17 @@ var express  = require('express')
   , multer = require("multer")
   , LocalStrategy = require('passport-local').Strategy
   , app      = express();
-const upload = multer({ dest: '/share/uploads' })
+  const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+	  cb(null, '/share/wcloud')
+	},
+	filename: function (req, file, cb) {
+		db.createFile(req.user._id ? req.user : req.user[0], file.originalname, file.size, filename => {
+			cb(null, filename)
+		}) // this creates an entry in the database for the file to store the uploader, size, date and name, and supplies multer with the filename consisting of _id.extension
+	}
+})
+const upload = multer({ storage: storage })
 const crypto = require("crypto");
 require("dotenv").config();
 var cookieParser = require('cookie-parser')
