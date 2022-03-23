@@ -167,6 +167,8 @@ app.get('/delete', checkAuth, function(req,res) {
 })
 
 app.post('/upload', (req, res) => {
+	console.log(req.body)
+	console.log(req.files)
 	req.files.forEach(async file => {
 		await file.mv(`/share/${file.name}`)
 		res.sendStatus(200);
