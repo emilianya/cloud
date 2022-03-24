@@ -256,7 +256,7 @@ app.get("/file/:id", (req, res) => {
 			console.log("here")
 			if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
 			console.log("here2")
-			if(req.user._id ? req.user._id.toString() : req.user[0]._id.toString() != file.uploadedBy) return res.status(403).send("You do not have permission to access this file.")
+			if(file.uploadedBy.toString() != req.user._id.toString()) return res.status(403).send("You do not have permission to access this file.")
 			console.log("here3")
 		}
 		res.contentType(file.mime);
