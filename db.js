@@ -186,6 +186,7 @@ function checkEmail(email, cb) {
 }
 
 function createFile(user, private, originalFileName, mime, size, cb) {
+	console.log(private)
 	let file = new File({
 		originalName: originalFileName,
 		size: size,
