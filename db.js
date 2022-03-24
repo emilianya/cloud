@@ -191,7 +191,8 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		size: size,
 		mime, mime,
 		uploadedBy: user._id,
-		uploadedAt: new Date()
+		uploadedAt: new Date(),
+		private: private
 	})
 	file.save(function (err, doc) {
 		if(err) {
