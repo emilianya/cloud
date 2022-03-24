@@ -93,18 +93,18 @@ app.get("/sharex.sxcu", checkAuth, (req, res) => {
 	let private = req.query?.private;
 	if (!private) private = false;
 	let content = `{
-					"Version": "13.7.0",
-					"Name": "Wanderer's Cloud",
-					"DestinationType": "ImageUploader, TextUploader, FileUploader",
-					"RequestMethod": "POST",
-					"RequestURL": "https://wanderers.cloud/upload",
-					"Headers": {
-					"authentication": "${req.user.uploadKey}",
-					${private && `"w-private": "true"`}
-					},
-					"Body": "MultipartFormData",
-					"FileFormName": "upload"
-				}`
+	"Version": "13.7.0",
+	"Name": "Wanderer's Cloud",
+	"DestinationType": "ImageUploader, TextUploader, FileUploader",
+	"RequestMethod": "POST",
+	"RequestURL": "https://wanderers.cloud/upload",
+	"Headers": {
+	"authentication": "${req.user.uploadKey}",
+	${private ? `"w-private": "true"` : ""}
+	},
+	"Body": "MultipartFormData",
+	"FileFormName": "upload"
+}`
 			
 	res.contentType("application/octet-stream")
 	res.send(content)
