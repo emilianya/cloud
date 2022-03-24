@@ -28,7 +28,8 @@ db.once('open', function() {
 		uploadedBy: String,
 		uploadedAt: Date,
 		mime: String,
-		persistent: Boolean
+		persistent: Boolean,
+		private: Boolean
 	  });
 	File = mongoose.model('File', fileSchema);
 	const inviteSchema = new mongoose.Schema({
@@ -36,8 +37,7 @@ db.once('open', function() {
 	  usedBy: String,
 	  code: String,
 	  createdAt: Date,
-	  usedAt: Date,
-	  private: Boolean
+	  usedAt: Date
 	});
 	Invite = mongoose.model('Invite', inviteSchema);
 });
@@ -201,7 +201,6 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		}
 		doc.fileName = doc._id.toString() + path.extname(originalFileName)
 		doc.save()
-		console.log(doc.private)
 		cb({name: doc.fileName})
 	})
 }
