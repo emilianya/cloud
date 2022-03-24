@@ -9,8 +9,7 @@ const storage = multer.diskStorage({
 	  cb(null, '/share/wcloud')
 	},
 	filename: function (req, file, cb) {
-		console.log(req.body["w-private"])
-		db.createFile(req.user._id ? req.user : req.user[0], req.headers["w-private"] ? true : false, file.originalname, file.mimetype, file.size, res => {
+		db.createFile(req.user._id ? req.user : req.user[0], req.headers["w-private"] ? true : req.body["w-private"] ? true : false, file.originalname, file.mimetype, file.size, res => {
 			if (res.error) return cb(res.error)
 			cb(null, res.name)
 		}) // this creates an entry in the database for the file to store the uploader, size, if file is private, date and name, and supplies multer with the filename consisting of _id.extension
