@@ -99,8 +99,7 @@ app.get("/sharex.sxcu", checkAuth, (req, res) => {
 	"RequestMethod": "POST",
 	"RequestURL": "https://wanderers.cloud/upload",
 	"Headers": {
-	"authentication": "${req.user.uploadKey}",
-	${private ? `"w-private": "true"` : ""}
+	"authentication": "${req.user.uploadKey}"${private ? `",\nw-private": "true"` : ""}
 	},
 	"Body": "MultipartFormData",
 	"FileFormName": "upload"
