@@ -9,7 +9,6 @@ const storage = multer.diskStorage({
 	  cb(null, '/share/wcloud')
 	},
 	filename: function (req, file, cb) {
-		console.log(req.headers)
 		db.createFile(req.user._id ? req.user : req.user[0], req.headers["w-private"] ? true : false, file.originalname, file.mimetype, file.size, res => {
 			if (res.error) return cb(res.error)
 			cb(null, res.name)
@@ -254,8 +253,10 @@ app.get("/file/:id", (req, res) => {
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
+			console.log("here")
 			if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
 			if(req.user._id ? req.user._id : req.user[0]._id != file.uploadedBy) return res.status(403).send("You do not have permission to access this file.")
+			console.log("here2")
 		}
 		res.contentType(file.mime);
 		res.sendFile(`/share/wcloud/${file.fileName}`)
