@@ -36,7 +36,8 @@ db.once('open', function() {
 	  usedBy: String,
 	  code: String,
 	  createdAt: Date,
-	  usedAt: Date
+	  usedAt: Date,
+	  private: Boolean
 	});
 	Invite = mongoose.model('Invite', inviteSchema);
 });
@@ -184,7 +185,7 @@ function checkEmail(email, cb) {
 	})
 }
 
-function createFile(user, originalFileName, mime, size, cb) {
+function createFile(user, private, originalFileName, mime, size, cb) {
 	let file = new File({
 		originalName: originalFileName,
 		size: size,
