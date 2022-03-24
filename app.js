@@ -89,6 +89,27 @@ app.get('/register', (req, res) => {
 	res.render(`${__dirname}/public/register.ejs`, {csrfToken: req.csrfToken()})
 });
 
+app.get("/sharex.sxcu", checkAuth, (req, res) => {
+	let private = req.query?.private;
+	if (!private) private = false;
+	let content = `{
+					"Version": "13.7.0",
+					"Name": "Wanderer's Cloud",
+					"DestinationType": "ImageUploader, TextUploader, FileUploader",
+					"RequestMethod": "POST",
+					"RequestURL": "https://wanderers.cloud/upload",
+					"Headers": {
+					"authentication": "${req.user.uploadKey}",
+					${private && `"w-private": "true"`}
+					},
+					"Body": "MultipartFormData",
+					"FileFormName": "upload"
+				}`
+			
+	res.contentType("application/octet-stream")
+	res.send(content)
+})
+
 app.post("/create_account", (req, res) => {
 	if(!req.body.email.includes("@") || !req.body.email.includes(".")) return res.status(400).send("Invalid email address");
 	if(req.body.username.trim().length < 3) return res.status(400).send("Username must be at least 3 characters long");
