@@ -9,7 +9,19 @@
         <input type="checkbox" name="w-private">
         <input type="file" id="ffile" name="sampleFile" />
         <input type='submit' value='Upload!' />
-    </form>     
+    </form>
+    <br><br>
+    <p>experiment form</p>
+    <form ref='uploadForm2' 
+      id='uploadForm2' 
+      action='/upload' 
+      method='post' 
+      encType="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+        <input type="checkbox" name="w-private">
+        <input type="file" id="ffile2" name="sampleFile" />
+        <input type='submit' value='Upload!' />
+    </form>  
   </body>
   <script>
     document.getElementById("uploadForm").onsubmit = (e) => {
@@ -22,6 +34,23 @@
       }).then(response => response.text().then(text => {
         console.log(text)
       }));
+    }
+
+    document.getElementById("uploadForm2").onsubmit = (e) => {
+      e.preventDefault()
+      let xhr = new XMLHttpRequest();
+      xhr.addEventListener("progress", updateProgress);
+      xhr.open("POST", "/upload");
+      let formData  = new FormData();
+      formData.append("upload", document.getElementById("ffile2").files[0]);
+      xhr.send(formData);
+    }
+
+    function updateProgress(e) {
+      if (e.lengthComputable) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        console.log(percentComplete);
+      } //copilot code, i really dont know what it does
     }
   </script>
 </html>
