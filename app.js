@@ -197,7 +197,6 @@ app.get('/delete', checkAuth, function(req,res) {
 })
 
 app.get('/upload', (req, res) => {
-	if(req.headers["x-forwarded-for"]) return res.redirect("https://upload.wanderers.cloud")
 	res.render(__dirname + "/public/upload.ejs")
 })
 
