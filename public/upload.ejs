@@ -19,7 +19,9 @@
       fetch("/upload", {
         method: 'POST',
         body: formData
-      }).then(response => console.log(response));
+      }).then(response => response.text().then(text => {
+        console.log(text)
+      }));
     }
   </script>
 </html>
