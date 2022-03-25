@@ -1,36 +1,24 @@
 <html>
   <body>
     <progress id="uploadProgress" style="display:none" value="0" max="100"></progress>
-    <form ref='uploadForm2' 
-      id='uploadForm2' 
+    <form ref='uploadForm' 
+      id='uploadForm' 
       action='/upload' 
       method='post' 
       encType="multipart/form-data">
         <input type="hidden" name="_csrf" value="<%=csrfToken%>">
         <input type="checkbox" name="w-private">
-        <input type="file" id="ffile2" name="sampleFile" />
+        <input type="file" id="ffile" name="sampleFile" />
         <input type='submit' value='Upload!' />
     </form>  
   </body>
   <script>
     document.getElementById("uploadForm").onsubmit = (e) => {
       e.preventDefault()
-      let formData  = new FormData();
-      formData.append("upload", document.getElementById("ffile").files[0]);
-      fetch("/upload", {
-        method: 'POST',
-        body: formData
-      }).then(response => response.text().then(text => {
-        console.log(text)
-      }));
-    }
-
-    document.getElementById("uploadForm2").onsubmit = (e) => {
-      e.preventDefault()
       let xhr = new XMLHttpRequest();
       xhr.open("POST", "/upload");
       let formData  = new FormData();
-      formData.append("upload", document.getElementById("ffile2").files[0]);
+      formData.append("upload", document.getElementById("ffile").files[0]);
       xhr.upload.addEventListener("progress", updateProgress)
       xhr.upload.addEventListener("loadend", e => {
         setTimeout(() => {
