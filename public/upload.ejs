@@ -1,6 +1,7 @@
 <html>
   <body>
     <progress id="uploadProgress" style="display:none" value="0" max="100"></progress>
+    <p id="result"></p>
     <form ref='uploadForm' 
       id='uploadForm' 
       action='/upload' 
@@ -25,6 +26,11 @@
           document.getElementById("uploadProgress").style.display = "none";
         }, 10000);
       })
+      xhr.onreadystatechange = function() {
+          if(xhr.readyState == 4 && xhr.status == 200) {
+              document.getElementById("result").innerHTML = `<a href="${xhr.response}">${xhr.response}</a>`
+          }
+      }
       xhr.send(formData);
       document.getElementById("uploadProgress").style.display = "block";
     }
@@ -33,7 +39,7 @@
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
         document.getElementById("uploadProgress").value = percentComplete;
-      } //copilot code, i really dont know what it does
+      }
     }
   </script>
 </html>
