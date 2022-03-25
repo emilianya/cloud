@@ -4,8 +4,7 @@
       id='uploadForm' 
       action='/upload' 
       method='post' 
-      encType="multipart/form-data"
-      id="form">
+      encType="multipart/form-data">
         <input type="hidden" name="_csrf" value="<%=csrfToken%>">
         <input type="checkbox" name="w-private">
         <input type="file" id="ffile" name="sampleFile" />
@@ -13,7 +12,7 @@
     </form>     
   </body>
   <script>
-    document.getElementById("form").onsubmit = (e) => {
+    document.getElementById("uploadForm").onsubmit = (e) => {
       e.preventDefault()
       let formData  = new FormData();
       formData.append("upload", document.getElementById("ffile").files[0]);
