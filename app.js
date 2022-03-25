@@ -201,6 +201,7 @@ app.get('/upload', (req, res) => {
 })
 
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
+	console.log("here")
 	let many = false
 	let manyArray = []
 	if(req.files.length > 1) many = true
