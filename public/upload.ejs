@@ -1,17 +1,6 @@
 <html>
   <body>
-    <form ref='uploadForm' 
-      id='uploadForm' 
-      action='/upload' 
-      method='post' 
-      encType="multipart/form-data">
-        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
-        <input type="checkbox" name="w-private">
-        <input type="file" id="ffile" name="sampleFile" />
-        <input type='submit' value='Upload!' />
-    </form>
-    <br><br>
-    <p>experiment form</p>
+    <progress id="uploadProgress" style="display:none" value="0" max="100"></progress>
     <form ref='uploadForm2' 
       id='uploadForm2' 
       action='/upload' 
@@ -43,14 +32,19 @@
       let formData  = new FormData();
       formData.append("upload", document.getElementById("ffile2").files[0]);
       xhr.upload.addEventListener("progress", updateProgress)
+      xhr.upload.addEventListener("loadend", e => {
+        setTimeout(() => {
+          document.getElementById("uploadProgress").style.display = "none";
+        }, 10000);
+      })
       xhr.send(formData);
+      document.getElementById("uploadProgress").style.display = "block";
     }
 
     function updateProgress(e) {
-      console.log(e)
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
-        console.log(percentComplete);
+        document.getElementById("uploadProgress").value = percentComplete;
       } //copilot code, i really dont know what it does
     }
   </script>
