@@ -197,7 +197,7 @@ app.get('/delete', checkAuth, function(req,res) {
 })
 
 app.get('/upload', (req, res) => {
-	res.render(__dirname + "/public/upload.ejs")
+	res.render(__dirname + "/public/upload.ejs", {csrfToken: req.csrfToken()})
 })
 
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
