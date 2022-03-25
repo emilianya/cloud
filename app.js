@@ -197,7 +197,7 @@ app.get('/delete', checkAuth, function(req,res) {
 })
 
 app.get('/upload', (req, res) => {
-	//console.log(req.headers["x-forwarded-for"])
+	console.log(req.headers["x-forwarded-for"])
 	res.render(__dirname + "/public/upload.ejs")
 })
 
