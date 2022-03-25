@@ -47,6 +47,7 @@
     }
 
     function updateProgress(e) {
+      console.log(e)
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
         console.log(percentComplete);
