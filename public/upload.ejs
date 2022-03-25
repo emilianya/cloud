@@ -39,8 +39,8 @@
     document.getElementById("uploadForm2").onsubmit = (e) => {
       e.preventDefault()
       let xhr = new XMLHttpRequest();
-      xhr.addEventListener("progress", updateProgress);
       xhr.open("POST", "/upload");
+      xhr.onprogress(updateProgress)
       let formData  = new FormData();
       formData.append("upload", document.getElementById("ffile2").files[0]);
       xhr.send(formData);
