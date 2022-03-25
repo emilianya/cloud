@@ -197,12 +197,12 @@ app.get('/delete', checkAuth, function(req,res) {
 })
 
 app.get('/upload', (req, res) => {
-	console.log(req.headers)
+	console.log(req.headers["x-forwarded-for"])
 	res.render(__dirname + "/public/upload.ejs")
 })
 
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
-	console.log(req.headers)
+	console.log(req.headers["x-forwarded-for"])
 	let many = false
 	let manyArray = []
 	if(req.files.length > 1) many = true
