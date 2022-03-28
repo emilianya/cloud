@@ -222,6 +222,16 @@ function getFile(fileId, cb) {
 	})
 }
 
+function getUserFiles(userId, cb) {
+	File.find({uploadedBy: userId}, (err, docs) => {
+		if(err) {
+			cb(null)
+			return console.error(err);
+		}
+		cb(docs)
+	}) //blame copilot if this breaks
+}
+
 module.exports = {
 	login,
 	createInvite,
@@ -234,5 +244,6 @@ module.exports = {
 	checkEmail,
 	createFile,
 	checkUploadKey,
-	getFile
+	getFile,
+	getUserFiles
 }

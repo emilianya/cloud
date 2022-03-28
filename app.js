@@ -281,6 +281,14 @@ app.get("/file/:id", (req, res) => {
 	})
 })
 
+app.post("/api/files", checkUploadAuth, (req, res) => {
+	db.getUserFiles(req.user._id, files => {
+		if(!files) return res.status(500).send("Error occurred")
+		res.contentType("application/json");
+		res.send(files)
+	})
+})
+
 app.get('*', function(req, res){
 	res.status(404).render(`${__dirname}/public/404.ejs`);
 });
