@@ -302,7 +302,7 @@ app.get("/file/:id", (req, res) => {
 			})
 		} else {
 			console.log("here3")
-			res.contentType(file.mime);
+			//res.contentType(file.mime);
 			console.log("here4")
 			console.log(file.mime)
 			res.download(`/share/wcloud/${file.fileName}`, file.originalName)	
