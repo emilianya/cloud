@@ -288,8 +288,12 @@ app.get('/.well-known/security.txt', function (req, res) {
 
 app.get("/file/:id", (req, res) => {
 	let id = req.params.id
+	console.log(id)
 	if (id.includes(".")) id = id.split(".")[0]
+	console.log(id)
 	db.getFile(id, file => {
+		console.log("here")
+		console.log(file)
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
 			checkUploadKey(req, user => {
