@@ -66,6 +66,12 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
+app.use(function(req, res, next) {
+	if(req.url.startsWith("/api")) {
+		res.setHeader("Access-Control-Allow-Origin", "*");
+	}
+	next();
+})
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload", "/api/files"]
