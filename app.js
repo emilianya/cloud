@@ -287,7 +287,8 @@ app.get('/.well-known/security.txt', function (req, res) {
 });
 
 app.get("/file/:id", (req, res) => {
-	let id = req.params.id.split(".")[0]
+	let id = req.params.id
+	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
