@@ -273,8 +273,10 @@ app.get("/file/:id", (req, res) => {
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
-			if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
-			if(file.uploadedBy.toString() != req.user._id.toString()) return res.status(403).send("You do not have permission to access this file.")
+			checkUploadAuth(req, res, () => {
+				if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
+				if(file.uploadedBy.toString() != req.user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
+			})
 		}
 		res.contentType(file.mime);
 		res.download(`/share/wcloud/${file.fileName}`, file.originalName)
