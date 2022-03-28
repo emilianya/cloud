@@ -69,6 +69,7 @@ app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
 app.use(function(req, res, next) {
 	if(req.url.startsWith("/api")) {
 		res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Headers", "*");
 	}
 	next();
 })
