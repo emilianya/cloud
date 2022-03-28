@@ -281,7 +281,7 @@ app.get("/file/:id", (req, res) => {
 	})
 })
 
-app.post("/api/files", checkUploadAuth, (req, res) => {
+app.get("/api/files", checkUploadAuth, (req, res) => {
 	db.getUserFiles(req.user._id, files => {
 		if(!files) return res.status(500).send("Error occurred")
 		res.contentType("application/json");
