@@ -68,7 +68,7 @@ app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
-	let csrfWhitelist = ["/upload"]
+	let csrfWhitelist = ["/upload", "/api/files"]
 	if(!csrfWhitelist.includes(req.url)) return res.send("Couldn't verify Cross Site Request Forgery prevention")
 	if(csrfWhitelist.includes(req.url)) return next()
 })
