@@ -255,6 +255,16 @@ function checkUploadAuth(req, res, next) {
 	});
 }
 
+function checkUploadKey(req, cb) {
+	let user = req.isAuthenticated() ? req.user._id ? req.user : req.user[0] : null
+	if(user) return cb(user);
+	if(!req.headers["authentication"]) return cb(null);
+	db.checkUploadKey(req.headers["authentication"], user => {
+		if(!user) return cb(null);
+		return cb(user);
+	});
+}
+
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
 	if(err.message == 'Invalid "code" in request.') {
@@ -273,9 +283,9 @@ app.get("/file/:id", (req, res) => {
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		if(file.private) {
-			checkUploadAuth(req, res, () => {
-				if(!req.isAuthenticated()) return res.status(403).send("You do not have permission to access this file.")
-				if(file.uploadedBy.toString() != req.user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
+			checkUploadKey(req, user => {
+				if(!user) return res.status(403).send("You do not have permission to access this file.")
+				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
 			})
 		}
 		res.contentType(file.mime);
