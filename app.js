@@ -286,10 +286,13 @@ app.get("/file/:id", (req, res) => {
 			checkUploadKey(req, user => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
+				res.contentType(file.mime);
+				res.download(`/share/wcloud/${file.fileName}`, file.originalName)
 			})
+		} else {
+			res.contentType(file.mime);
+			res.download(`/share/wcloud/${file.fileName}`, file.originalName)	
 		}
-		res.contentType(file.mime);
-		res.download(`/share/wcloud/${file.fileName}`, file.originalName)
 	})
 })
 
