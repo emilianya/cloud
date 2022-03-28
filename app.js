@@ -290,9 +290,7 @@ app.get("/file/:id", (req, res) => {
 	let id = req.params.id
 	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
-		console.log("here")
 		if(!file) return res.status(404).send("File not found or error occurred")
-		console.log("here2")
 		if(file.private) {
 			checkUploadKey(req, user => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
@@ -301,10 +299,7 @@ app.get("/file/:id", (req, res) => {
 				res.download(`/share/wcloud/${file.fileName}`, file.originalName)
 			})
 		} else {
-			console.log("here3")
-			//res.contentType(file.mime);
-			console.log("here4")
-			console.log(file.mime)
+			res.contentType(file.mime);
 			res.download(`/share/wcloud/${file.fileName}`, file.originalName)	
 		}
 	})

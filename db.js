@@ -186,8 +186,19 @@ function checkEmail(email, cb) {
 }
 
 function createFile(user, private, originalFileName, mime, size, cb) {
+	let parsedOriginalFileName = originalFileName
+	if(originalFileName.length > 256) {
+		if (originalFileName.split(".").length > 1) {
+			let split = originalFileName.split(".")
+			let extension = split[split.length - 1]
+			let name = split.splice(split.length - 1, 1).join(".")
+			parsedOriginalFileName = name.substr(0, 256 - extension.length - 1) + "." + extension
+		}  else {//There is probably a better way to do this
+			parsedOriginalFileName = originalFileName.substr(0, 256)
+		}
+	}
 	let file = new File({
-		originalName: originalFileName,
+		originalName: parsedOriginalFileName,
 		size: size,
 		mime, mime,
 		uploadedBy: user._id,
