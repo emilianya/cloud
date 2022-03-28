@@ -211,6 +211,7 @@ app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	let many = false
 	let manyArray = []
 	if(req.files.length > 1) many = true
+	if(req.files.length < 1) return res.sendStatus(204)
 	req.files.forEach(file => {
 		let fileId = file.filename
 		if(!many) res.send(`https://wanderers.cloud/file/${fileId}`);
