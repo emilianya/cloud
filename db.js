@@ -198,6 +198,7 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 			parsedOriginalFileName = originalFileName.substr(0, 255)
 		}
 	}
+	if(originalFileName.length < 1) parsedOriginalFileName = "unknwon"
 	let file = new File({
 		originalName: parsedOriginalFileName,
 		size: size,
