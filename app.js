@@ -287,6 +287,8 @@ app.get('/.well-known/security.txt', function (req, res) {
 });
 
 app.get("/file/:id", (req, res) => {
+	let preview = false
+	if(req.query?.preview) preview = true
 	let id = req.params.id
 	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
@@ -296,11 +298,13 @@ app.get("/file/:id", (req, res) => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
 				res.contentType(file.mime);
-				res.download(`/share/wcloud/${file.fileName}`, file.originalName)
+				if (!preview) res.download(`/share/wcloud/${file.fileName}`, file.originalName)
+				if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
 			})
 		} else {
 			res.contentType(file.mime);
-			res.download(`/share/wcloud/${file.fileName}`, file.originalName)	
+			if (!preview) res.download(`/share/wcloud/${file.fileName}`, file.originalName)
+			if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
 		}
 	})
 })
