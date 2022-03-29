@@ -191,6 +191,7 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		if (originalFileName.split(".").length > 1) {
 			let split = originalFileName.split(".")
 			let extension = split[split.length - 1]
+			if (extension.length > 10) extension = "long" 
 			split.pop()
 			let name = split.join(".")
 			parsedOriginalFileName = name.substr(0, 255 - extension.length - 1) + "." + extension
