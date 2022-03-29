@@ -109,9 +109,9 @@ app.get("/sharex.sxcu", checkAuth, (req, res) => {
 	"authentication": "${req.user.uploadKey}"${private ? `",\nw-private": "true"` : ""}
 	},
 	"Body": "MultipartFormData",
-	"FileFormName": "upload"
-}`
-			
+	"FileFormName": "upload",
+	"URL": "$response$?preview=true"
+}`		
 	res.contentType("application/octet-stream")
 	res.send(content)
 })
