@@ -1,8 +1,10 @@
-<div class="bg-white opacity-50 w-48 h-32 break-words p-5 rounded-lg shadow-lg">
-    <% if(file.mime.startsWith('image/')) { %>
-    <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="max-h-20">
-    <% } else {%>
-    <img src="/resources/file.svg" class="max-h-20">
-    <%}%>
-    <a href="https://wanderers.cloud/file/<%=file.fileName%>?preview=true"><p><%=file.originalName %></p></a>
+<div class="bg-white w-48 h-32 break-words p-5 rounded-lg shadow-lg">
+    <div class="bg-black bg-opacity-0 p-4 w-full h-full hover:bg-opacity-50 transition-all duration-1000">
+        <% if(file.mime.startsWith('image/')) { %>
+        <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="max-h-20">
+        <% } else {%>
+        <img src="/resources/file.svg" class="max-h-20">
+        <%}%>
+        <a href="https://wanderers.cloud/file/<%=file.fileName%>?preview=true"><p><%=file.originalName %></p></a>
+    </div>
 </div>
