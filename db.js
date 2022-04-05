@@ -249,7 +249,7 @@ function getUserFiles(userId, cb) {
 function deleteFile(fileId, user, cb) {
 	// cb: {code: 404 or 403 or 500 or null, file: file}
 	File.findOne({_id: fileId}, (err, file) => {
-		if (file._id != user._id) return cb({code: 403, file: null})
+		if (file.uploadedBy != user._id) return cb({code: 403, file: null})
 		if (err) {
 			console.error(err);
 			return cb({code: 500, file: null})
