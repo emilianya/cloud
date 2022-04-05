@@ -279,5 +279,6 @@ module.exports = {
 	createFile,
 	checkUploadKey,
 	getFile,
-	getUserFiles
+	getUserFiles,
+	deleteFile
 }
