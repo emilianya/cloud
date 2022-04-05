@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="/resources/style.css">
   </head>
   <body class="bg-gray-900">
-    <%=JSON.stringify(files)%>
     <%
-        
-    
+        files.forEach(file => {
+            __include("/common/file.ejs", {file: file, csrfToken, csrfToken})
+        });
     %>
   </body>
 </html>
