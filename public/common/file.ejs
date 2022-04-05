@@ -3,7 +3,7 @@
         <div style="grid-area: inner-div;" class="bg-black opacity-0 p-4 w-full h-full hover:opacity-90 transition-all duration-1000 p-5 select-none hover:selct-auto">
             <p class="text-white">hi</p>    
         </div>
-        <div style="grid-area: inner-div;" class="bg-black absolute bg-opacity-0 p-4 w-full h-full hover:bg-opacity-50 transition-all duration-1000 p-5 hover:select-none select-auto">
+        <div style="grid-area: inner-div;" class="bg-black bg-opacity-0 p-4 w-full h-full hover:bg-opacity-50 transition-all duration-1000 p-5 hover:select-none select-auto">
             <% if(file.mime.startsWith('image/')) { %>
             <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="max-h-20">
             <% } else {%>
