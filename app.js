@@ -332,7 +332,7 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 		if(result.code == 404) return res.status(404).send({error: "No such file exists"})
 		if(result.code == 403) return res.status(403).send({error: "That file is not yours"})
 		fs.unlinkSync(`/share/wcloud/${result.file.fileName}`)
-		res.sendStatus(200)
+		res.status(200).send({error: null})
 	})
 })
 
