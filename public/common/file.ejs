@@ -7,9 +7,9 @@
             <% if(file.mime.startsWith('image/')) { %>
             <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="max-h-20">
             <% } else {%>
-            <img src="/resources/file.svg" class="max-h-20">
+            <img src="https://wanderers.cloud/resources/file.svg" class="max-h-20">
             <%}%>
-            <a href="https://wanderers.cloud/file/<%=file.fileName%>?preview=true"><p><%=file.originalName %></p></a>
+            <a><p><%=file.originalName %></p></a>
         </div>
     </div>
 </div>
