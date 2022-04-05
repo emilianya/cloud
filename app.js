@@ -286,6 +286,12 @@ app.get('/.well-known/security.txt', function (req, res) {
     res.send("Contact: mailto:contact@wanderers.cloud");
 });
 
+app.get("/my", checkAuth, (req, res) => {
+	db.getUserFiles(req.user._id, files => {
+		res.render(`${__dirname}/public/my.ejs`, {files: files, csrfToken: req.csrfToken()})
+	})
+})
+
 app.get("/file/:id", (req, res) => {
 	let preview = false
 	if(req.query?.preview) preview = true
