@@ -26,7 +26,8 @@
 			id: id
 		})
 	  }).then(res => res.json()).then(res => {
-		
+			if(res.error) return alert(res.error)
+			document.getElementById(id).remove()
 	  })
 	}
   </script>
