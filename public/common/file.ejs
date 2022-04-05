@@ -5,9 +5,9 @@
         </div>
         <div style="grid-area: inner-div;" class="p-4 w-full h-full p-5 hover:select-none select-auto break-words">
             <% if(file.mime.startsWith('image/')) { %>
-            <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="object-contain max-h-20">
+            <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="object-scale-down max-h-20">
             <% } else {%>
-            <img src="https://wanderers.cloud/resources/file.svg" class="object-contain max-h-20">
+            <img src="https://wanderers.cloud/resources/file.svg" class="object-scale-down max-h-20">
             <%}%>
             <p><%=file.originalName %></p>
         </div>
