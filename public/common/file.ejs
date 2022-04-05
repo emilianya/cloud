@@ -1,6 +1,8 @@
-<div class="bg-white w-48 h-32 break-words p-5 rounded-lg shadow-lg">
+<div class="bg-white opacity-50 w-48 h-32 break-words p-5 rounded-lg shadow-lg">
     <% if(file.mime.startsWith('image/')) { %>
     <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="max-h-20">
-    <% }%>
+    <% } else {%>
+    <img src="/resources/file.svg" class="max-h-20">
+    <%}%>
     <a href="https://wanderers.cloud/file/<%=file.fileName%>?preview=true"><p><%=file.originalName %></p></a>
 </div>
