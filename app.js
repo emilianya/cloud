@@ -21,6 +21,7 @@ require("dotenv").config();
 var cookieParser = require('cookie-parser')
 var flash = require('express-flash')
 const csrf = require("csurf")
+var fs = require("fs")
 const MongoDBStore = require("connect-mongodb-session")(session);
 var store = new MongoDBStore({
 	uri: process.env.MONGODB_HOST,
@@ -323,11 +324,24 @@ app.get("/api/files", checkUploadAuth, (req, res) => {
 	})
 })
 
+app.post("/api/deletefile", checkUploadAuth, (req, res) => {
+	let id = req.body.id
+	if(!id) return res.status(400).send({error: "No file id provided"})
+	db.deleteFile(id, req.user, result => {
+		if(result.code == 500) return res.status(500).send({error: "Internal server error"})
+		if(result.code == 404) return res.status(404).send({error: "No such file exists"})
+		if(result.code == 403) return res.status(403).send({error: "That file is not yours"})
+		fs.unlinkSync(`/share/wcloud/${result.file.fileName}`)
+		res.sendStatus(200)
+	})
+})
+
 app.get('*', function(req, res){
 	res.status(404).render(`${__dirname}/public/404.ejs`);
 });
 
 var http = require('http');
+const { fstat } = require('fs');
 
 const httpServer = http.createServer(app);
 

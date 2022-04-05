@@ -246,6 +246,26 @@ function getUserFiles(userId, cb) {
 	}) //blame copilot if this breaks
 }
 
+function deleteFile(fileId, user, cb) {
+	// cb: {code: 404 or 403 or 500 or null, file: file}
+	File.findOne({_id: fileId}, (err, file) => {
+		if (file._id != user._id) return cb({code: 403, file: null})
+		if (err) {
+			console.error(err);
+			return cb({code: 500, file: null})
+		}
+		if (!file) return cb({code: 404, file: null})
+		File.deleteOne({_id: fileId}, (err, res) => {
+			if (err) {
+				console.error(err);
+				return cb({code: 500, file: null})
+			}
+			cb({code: null, file: file})
+		});
+	})
+}
+
+
 module.exports = {
 	login,
 	createInvite,
