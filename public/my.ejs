@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/resources/style.css">
   </head>
   <body class="bg-gray-900">
-    <div class="grid gap-4 max-w-screen-md">
+    <div class="grid gap-4 max-w-screen-md grid-cols-3">
     <%
       files.forEach(file => {
             %><%-include("./common/file.ejs", {file: file, csrfToken})%><%});%>
