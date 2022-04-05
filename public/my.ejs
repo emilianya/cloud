@@ -7,7 +7,7 @@
   <body class="bg-gray-900">
     <%
         files.forEach(file => {
-            __include("/common/file.ejs", {file: file, csrfToken, csrfToken})
+            include("/common/file.ejs", {file: file, csrfToken, csrfToken})
         });
     %>
   </body>
