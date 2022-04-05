@@ -6,7 +6,9 @@
   </head>
   <body class="bg-gray-900">
     <%
+    console.log(files)
         files.forEach(file => {
+        console.log(file)
             include("./common/file.ejs", {file: file, csrfToken})
         });
     %>
