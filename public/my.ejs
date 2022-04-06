@@ -30,5 +30,14 @@
 			document.getElementById(id).remove()
 	  })
 	}
+	function linkClipboard(link, element) {
+		navigator.clipboard.writeText(link)
+		element.classList.remove("fa-copy")
+		element.classList.add("fa-square-check")
+		setTimeout(() => {
+		element.classList.remove("fa-square-check")
+		element.classList.add("fa-copy")
+		}, 1000)
+	}
   </script>
 </html>
