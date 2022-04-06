@@ -289,6 +289,7 @@ app.get('/.well-known/security.txt', function (req, res) {
 });
 
 app.get("/my", checkAuth, (req, res) => {
+	let user = req.user._id ? req.user : req.user[0]
 	db.getUserFiles(req.user._id, files => {
 		res.render(`${__dirname}/public/my.ejs`, {files: files, csrfToken: req.csrfToken(), user: user})
 	})
