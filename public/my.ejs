@@ -42,7 +42,7 @@
 		})
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {
-				// something something upload completed
+				document.getElementById("uploadProgressText").innerHTML = `100%`;
 			}
 		}
 		xhr.send(formData);
@@ -78,7 +78,7 @@
 	function updateProgress(e) {
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
-		document.getElementById("uploadProgressText").innerHTML = `${Math.floor(percentComplete)}%`;
+		document.getElementById("uploadProgressText").innerHTML = `${Math.floor(percentComplete) - 1}%`;
         document.getElementById("uploadProgress").style.width = `${percentComplete}%`;
       }
     }
