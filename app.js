@@ -60,6 +60,7 @@ app.use(session({
 	store: store
 }));
 
+app.use(cors())
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,7 +80,7 @@ function popupMid(req, res, next) {
 	next()
 }
 
-app.get('/', cors(), (req, res) => {
+app.get('/', (req, res) => {
 	res.render(`${__dirname}/public/index.ejs`)
 });
 
@@ -198,11 +199,11 @@ app.get('/delete', checkAuth, function(req,res) {
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
 })
 
-app.get('/upload', cors(), (req, res) => {
+app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs", {csrfToken: req.csrfToken()})
 })
 
-app.post('/upload', cors(), checkUploadAuth, upload.any(), async (req, res) => {
+app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	let many = false
 	let manyArray = []
 	if(req.files.length > 1) many = true
@@ -281,14 +282,14 @@ app.get('/.well-known/security.txt', function (req, res) {
     res.send("Contact: mailto:contact@wanderers.cloud");
 });
 
-app.get("/my", cors(), checkAuth, (req, res) => {
+app.get("/my", checkAuth, (req, res) => {
 	let user = req.user._id ? req.user : req.user[0]
 	db.getUserFiles(req.user._id, files => {
 		res.render(`${__dirname}/public/my.ejs`, {files: files, csrfToken: req.csrfToken(), user: user})
 	})
 })
 
-app.get("/file/:id", cors(), (req, res) => {
+app.get("/file/:id", (req, res) => {
 	let preview = false
 	if(req.query?.preview) preview = true
 	let id = req.params.id
@@ -312,7 +313,7 @@ app.get("/file/:id", cors(), (req, res) => {
 	})
 })
 
-app.get("/api/files", cors(), checkUploadAuth, (req, res) => {
+app.get("/api/files", checkUploadAuth, (req, res) => {
 	db.getUserFiles(req.user._id, files => {
 		if(!files) return res.status(500).send("Error occurred")
 		res.contentType("application/json");
@@ -320,7 +321,7 @@ app.get("/api/files", cors(), checkUploadAuth, (req, res) => {
 	})
 })
 
-app.post("/api/deletefile", cors(), checkUploadAuth, (req, res) => {
+app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 	let id = req.body.id
 	if(!id) return res.status(400).send({error: "No file id provided"})
 	db.deleteFile(id, req.user, result => {
