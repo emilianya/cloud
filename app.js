@@ -72,7 +72,7 @@ app.use(function(req, res, next) {
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Headers", "*");
 	}
-	console.log(req.headers)
+	console.log(req)
 	next();
 })
 app.use(function (err, req, res, next) {
