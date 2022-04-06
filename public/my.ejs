@@ -32,11 +32,11 @@
 	}
 	function linkClipboard(link, element) {
 		navigator.clipboard.writeText(link)
-		element.classList.remove("fa-copy")
+		element.classList.remove("fa-clipboard")
 		element.classList.add("fa-clipboard-check")
 		setTimeout(() => {
 		element.classList.remove("fa-clipboard-check")
-		element.classList.add("fa-copy")
+		element.classList.add("fa-clipboard")
 		}, 1000)
 	}
   </script>

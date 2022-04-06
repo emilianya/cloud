@@ -8,7 +8,7 @@
             <% } %>
             <br><br><br>
             <a href="https://wanderers.cloud/file/<%=file.fileName%>" target="_blank"><i class="fa-solid fa-file-arrow-down text-white text-4xl transition-all duration-200 hover:text-green-500" title="download"></i></a>&nbsp;<a href="#"><i class="fa-solid fa-trash text-white hover:text-red-600 transition-all duration-200 text-4xl" onclick="deleteFile('<%=file._id%>')" title="delete"></i></a>
-            &nbsp;<a href="#"><i class="fa-solid fa-copy text-white hover:text-yellow-200 transition-all duration-200 text-4xl" onclick="linkClipboard(`https://wanderers.cloud/file/<%=file.fileName%>`, this)"></i></a>&nbsp;
+            &nbsp;<a href="#"><i class="fa-solid fa-clipboard text-white hover:text-yellow-200 transition-all duration-200 text-4xl" onclick="linkClipboard(`https://wanderers.cloud/file/<%=file.fileName%>`, this)"></i></a>&nbsp;
             <% if (["audio", "video", "image"].includes(file.mime.split("/")[0])) { %>
                 <a href="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" target="_blank"><i class="fa-solid fa-eye text-white text-4xl transition-all duration-200 hover:text-blue-400" title="preview"></i></a>
             <% } %>
