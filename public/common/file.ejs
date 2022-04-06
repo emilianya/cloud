@@ -9,13 +9,13 @@
             <br><br><br>
             <a href="https://wanderers.cloud/file/<%=file.fileName%>"><i class="fa-solid fa-file-arrow-down text-white text-5xl"></i></a>   <a href="#"><i class="fa-solid fa-trash text-white hover:text-red-600 transition-all duration-200 text-5xl" onclick="deleteFile('<%=file._id%>')"></i></a>
         </div>
-        <div style="grid-area: inner-div;" class="p-4 w-48 h-40 p-5 hover:select-none select-auto line-clamp-3">
+        <div style="grid-area: inner-div;" class="p-4 w-48 h-40 p-5 hover:select-none select-auto">
             <% if(file.mime.startsWith('image/')) { %>
             <img src="https://wanderers.cloud/file/<%=file.fileName%>?preview=true" class="object-scale-down max-h-20 max-w-[8rem]">
             <% } else {%>
             <img src="https://wanderers.cloud/resources/file.svg" class="object-scale-down max-h-20">
             <%}%>
-            <p><%=file.originalName %></p>
+            <p class="line-clamp-3"><%=file.originalName %></p>
         </div>
     </div>
 </div>
