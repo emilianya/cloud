@@ -11,11 +11,11 @@
 			<%- include("./common/file.ejs", {file: file, csrfToken}) %>
 		<% }); %>
 	</div>
-	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wgreen text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-100 flex cursor-pointer"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
+	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wblue text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-100 flex cursor-pointer"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
 	<input type="file" hidden id="fileUpload" multiple />
 	<div class="w-56 h-10 bg-wwhite rounded-lg hidden fixed bottom-32 right-10 flex p-2" id="progressWidget">
 		<div class="w-full h-6 bg-wdark rounded-full margin-auto">
-			<div id="uploadProgress" class="bg-wgreen h-6 text-sm font-medium text-wwhite text-center p-1 leading-none rounded-full" style="width: 0%"> <span id="uploadProgressText">0%</span></div>
+			<div id="uploadProgress" class="bg-wblue h-6 text-sm font-medium text-wwhite text-center p-1 leading-none rounded-full" style="width: 0%"> <span id="uploadProgressText">0%</span></div>
 		</div>
 	</div>
   </body>
