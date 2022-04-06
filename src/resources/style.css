@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 .button {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-black bg-white;
+    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-black bg-wwhite;
 }
 
 .button-blue {
-    @apply text-blue-500 hover:text-white hover:bg-blue-500;
+    @apply text-wblue hover:text-wwhite hover:bg-wblue;
 }
 
 .button-dark {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-white bg-button-dark;
+    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wwhite bg-wdark;
 }
 
 

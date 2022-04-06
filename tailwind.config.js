@@ -8,7 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'button-dark': '#3c3c45'
+        'wdark': '#3c3c45',
+        'wgreen': '#70ee9c',
+        'wwhite': "#f3eff5",
+        'wblue': '#2589bd',
       },
       margin: {
         "20p": "20%"
