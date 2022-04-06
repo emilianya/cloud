@@ -1,5 +1,10 @@
 doing:
-a proper ui
+upload button:
+ - when file added call upload()
+ - allow multiple files
+ - animate a progress bar widget appearing
+ - when upload is complete, remove progress bar widget
+ - you can figure it out probably idk
 
 backlog:
 payment stuff (ew) 
