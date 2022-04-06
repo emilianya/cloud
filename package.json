@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/vtheskeleton/cloud#readme",
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.3.1",
     "autoprefixer": "^10.4.4",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.12",
