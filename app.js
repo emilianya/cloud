@@ -68,11 +68,10 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
 app.use(function(req, res, next) {
-	if(req.url.startsWith("/api")) {
+	if(req.url.startsWith("/api") || req.url.startsWith("/upload")) {
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Headers", "*");
 	}
-	console.log(req.headers)
 	next();
 })
 app.use(function (err, req, res, next) {
