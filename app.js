@@ -2,6 +2,7 @@ var express  = require('express')
   , session  = require('express-session')
   , passport = require('passport')
   , multer = require("multer")
+  , cors = require("cors")
   , LocalStrategy = require('passport-local').Strategy
   , app      = express();
 const storage = multer.diskStorage({
@@ -59,6 +60,7 @@ app.use(session({
 	store: store
 }));
 
+app.use(cors())
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -67,14 +69,6 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
-app.use(function(req, res, next) {
-	//if(req.url.startsWith("/api") || req.originalUrl == "/upload") {
-	//	console.log("cors")
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Headers", "*");
-	//}
-	next();
-})
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload", "/api/files"]
