@@ -36,13 +36,14 @@
 		xhr.setRequestHeader("authentication", "<%=user.uploadKey%>");
 		xhr.upload.addEventListener("progress", updateProgress)
 		xhr.upload.addEventListener("loadend", e => {
-			setTimeout(() => {
-			document.getElementById("progressWidget").classList.add("hidden");
-			}, 5000);
+			document.getElementById("uploadProgressText").innerHTML = `Processing...`;
 		})
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {
-				document.getElementById("uploadProgressText").innerHTML = `100%`;
+				document.getElementById("uploadProgressText").innerHTML = `Done`;
+				setTimeout(() => {
+					document.getElementById("progressWidget").classList.add("hidden");
+				}, 5000);
 			}
 		}
 		xhr.send(formData);
