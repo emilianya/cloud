@@ -20,8 +20,10 @@
 	</div>
   </body>
   <script>
+	let hideTimeout
 	const getFormDataSize = (formData) => [...formData].reduce((size, [name, value]) => size + (typeof value === 'string' ? value.length : value.size), 0); //thank you stackoverflow
 	document.getElementById("fileUpload").addEventListener("change", (e) => {
+		clearTimeout(hideTimeout);
 		const formData = new FormData();
 		const fileInput = document.getElementById("fileUpload");
 		for(let i = 0; i < fileInput.files.length; i++) {
@@ -41,7 +43,7 @@
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {
 				document.getElementById("uploadProgressText").innerHTML = `Done`;
-				setTimeout(() => {
+				hideTimeout = setTimeout(() => {
 					document.getElementById("progressWidget").classList.add("hidden");
 				}, 5000);
 			}
