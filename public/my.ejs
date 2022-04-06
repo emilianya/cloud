@@ -6,17 +6,46 @@
 	<script src="https://kit.fontawesome.com/1b8f1d833c.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-gray-900">
-	<div class="grid gap-4 max-w-screen-2xl grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+	<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
 		<% files.forEach(file => { %>
 			<%- include("./common/file.ejs", {file: file, csrfToken}) %>
 		<% }); %>
 	</div>
 	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wgreen text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-100 flex cursor-pointer"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
-	<input type="file" hidden id="fileUpload"/>
+	<input type="file" hidden id="fileUpload" multiple/>
+	<div class="w-48 h-8 bg-wwhite rounded-lg hidden" id="progressWidget">
+		<progress id="uploadProgress" value="0" max="100"></progress>
+	</div>
   </body>
   <script>
+	const getFormDataSize = (formData) => [...formData].reduce((size, [name, value]) => size + (typeof value === 'string' ? value.length : value.size), 0); //thank you stackoverflow
 	document.getElementById("fileUpload").addEventListener("change", (e) => {
-		
+		const formData = new FormData();
+		const fileInput = document.getElementById("fileUpload");
+		let i = 0;
+		fileInput.files.forEach(file => {
+			formData.append(`file${i}`, file);
+			i++;
+		});
+		if (getFormDataSize(formData) > 5368709120) {
+			alert("Your upload exceeds 5GB, are you certain what you are doing is worth it?\nIf you really really want to upload over 5GB at once contact us at contact@wanderers.cloud");
+			return;
+		}
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://upload.wanderers.cloud");
+		xhr.upload.addEventListener("progress", updateProgress)
+		xhr.upload.addEventListener("loadend", e => {
+			setTimeout(() => {
+			document.getElementById("progressWidget").classList.add("hidden");
+			}, 5000);
+		})
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState == 4 && xhr.status == 200) {
+				// something something upload completed
+			}
+		}
+		xhr.send(formData);
+		document.getElementById("progressWidget").classList.remove("hidden");
 	})
 	function deleteFile(id) {
 		document.getElementById(id).remove()
@@ -45,5 +74,11 @@
 		element.classList.add("fa-clipboard")
 		}, 1000)
 	}
+	function updateProgress(e) {
+      if (e.lengthComputable) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        document.getElementById("uploadProgress").value = percentComplete;
+      }
+    }
   </script>
 </html>
