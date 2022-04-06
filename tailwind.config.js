@@ -12,6 +12,7 @@ module.exports = {
         'wgreen': '#70ee9c',
         'wwhite': "#f3eff5",
         'wblue': '#2589bd',
+        'wblue-dark': '#227baa'
       },
       margin: {
         "20p": "20%"
