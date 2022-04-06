@@ -60,7 +60,6 @@ app.use(session({
 	store: store
 }));
 
-app.use(cors())
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -203,7 +202,7 @@ app.get('/upload', (req, res) => {
 	res.render(__dirname + "/public/upload.ejs", {csrfToken: req.csrfToken()})
 })
 
-app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
+app.post('/upload', cors(), checkUploadAuth, upload.any(), async (req, res) => {
 	let many = false
 	let manyArray = []
 	if(req.files.length > 1) many = true
@@ -313,7 +312,7 @@ app.get("/file/:id", (req, res) => {
 	})
 })
 
-app.get("/api/files", checkUploadAuth, (req, res) => {
+app.get("/api/files", cors(), checkUploadAuth, (req, res) => {
 	db.getUserFiles(req.user._id, files => {
 		if(!files) return res.status(500).send("Error occurred")
 		res.contentType("application/json");
@@ -321,7 +320,7 @@ app.get("/api/files", checkUploadAuth, (req, res) => {
 	})
 })
 
-app.post("/api/deletefile", checkUploadAuth, (req, res) => {
+app.post("/api/deletefile", cors(), checkUploadAuth, (req, res) => {
 	let id = req.body.id
 	if(!id) return res.status(400).send({error: "No file id provided"})
 	db.deleteFile(id, req.user, result => {
