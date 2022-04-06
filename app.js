@@ -79,7 +79,7 @@ function popupMid(req, res, next) {
 	next()
 }
 
-app.get('/', (req, res) => {
+app.get('/', cors(), (req, res) => {
 	res.render(`${__dirname}/public/index.ejs`)
 });
 
@@ -198,7 +198,7 @@ app.get('/delete', checkAuth, function(req,res) {
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
 })
 
-app.get('/upload', (req, res) => {
+app.get('/upload', cors(), (req, res) => {
 	res.render(__dirname + "/public/upload.ejs", {csrfToken: req.csrfToken()})
 })
 
@@ -281,14 +281,14 @@ app.get('/.well-known/security.txt', function (req, res) {
     res.send("Contact: mailto:contact@wanderers.cloud");
 });
 
-app.get("/my", checkAuth, (req, res) => {
+app.get("/my", cors(), checkAuth, (req, res) => {
 	let user = req.user._id ? req.user : req.user[0]
 	db.getUserFiles(req.user._id, files => {
 		res.render(`${__dirname}/public/my.ejs`, {files: files, csrfToken: req.csrfToken(), user: user})
 	})
 })
 
-app.get("/file/:id", (req, res) => {
+app.get("/file/:id", cors(), (req, res) => {
 	let preview = false
 	if(req.query?.preview) preview = true
 	let id = req.params.id
