@@ -76,6 +76,7 @@
 	function updateProgress(e) {
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
+		document.getElementById("uploadProgressText").innerHtml = `${Math.floor(percentComplete)}%`;
         document.getElementById("uploadProgress").value = percentComplete;
       }
     }
