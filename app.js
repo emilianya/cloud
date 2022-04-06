@@ -309,6 +309,7 @@ app.get("/file/:id", (req, res) => {
 				if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
 			})
 		} else {
+			if (file.mime.includes("html")) preview = false; 
 			res.contentType(file.mime);
 			if (!preview) res.download(`/share/wcloud/${file.fileName}`, file.originalName)
 			if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
@@ -341,7 +342,6 @@ app.get('*', function(req, res){
 });
 
 var http = require('http');
-const { fstat } = require('fs');
 
 const httpServer = http.createServer(app);
 
