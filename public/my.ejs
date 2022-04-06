@@ -16,19 +16,22 @@
   </body>
   <script>
 	function deleteFile(id) {
-	  fetch("/api/deletefile", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			_csrf: "<%=csrfToken %>",
-			id: id
+		document.getElementById(id).remove()
+	  	fetch("/api/deletefile", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				_csrf: "<%=csrfToken %>",
+				id: id
+			})
+		}).then(res => res.json()).then(res => {
+			if(res.error) {
+				alert(res.error)
+				windows.location = window.location	
+			}
 		})
-	  }).then(res => res.json()).then(res => {
-			if(res.error) return alert(res.error)
-			document.getElementById(id).remove()
-	  })
 	}
 	function linkClipboard(link, element) {
 		navigator.clipboard.writeText(link)
