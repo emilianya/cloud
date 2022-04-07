@@ -6,14 +6,14 @@
 	<script src="https://kit.fontawesome.com/1b8f1d833c.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-gray-900">
-	<%- include("./common/nav.ejs", {user: user}) %> 
+	<%- include("./common/nav.ejs", {user: user}); %> 
 	<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
 		
 		<% 	files.sort((a, b) => {
 				return b.uploadedAt - a.uploadedAt;
 			});
 			files.forEach(file => { %>
-			<%- include("./common/file.ejs", {file: file, csrfToken}) %>
+			<%- include("./common/file.ejs", {file: file, csrfToken}); %>
 		<% }); %>
 	</div>
 	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wblue text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-50 flex cursor-pointer hover:bg-wblue-dark transition-all duration-[100ms]"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
@@ -53,6 +53,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://upload.wanderers.cloud");
 		xhr.setRequestHeader("authentication", "<%=user.uploadKey%>");
+		if(settings.privateFiles) xhr.setRequestHeader("w-private", "true");
 		xhr.upload.addEventListener("progress", updateProgress)
 		xhr.upload.addEventListener("loadend", e => {
 			document.getElementById("uploadProgressText").innerHTML = `Processing...`;
@@ -62,6 +63,9 @@
 				document.getElementById("uploadProgressText").innerHTML = `Done`;
 				hideTimeout = setTimeout(() => {
 					document.getElementById("progressWidget").classList.add("hidden");
+					if (settings.refreshAfterUpload) {
+						location.reload();
+					}
 				}, 5000);
 			}
 		}
@@ -82,7 +86,8 @@
 		}).then(res => res.json()).then(res => {
 			if(res.error) {
 				alert(res.error)
-				windows.location = window.location	
+				
+				location.reload();
 			}
 		})
 	}
