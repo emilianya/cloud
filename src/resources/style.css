@@ -14,7 +14,7 @@
     @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wwhite bg-wdark;
 }
 
-.button-dark {
+.button-light {
     @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wdark bg-wwhite;
 }
 
