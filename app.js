@@ -141,7 +141,7 @@ app.post("/create_account", (req, res) => {
 })
 
 app.post('/login/password', passport.authenticate('local', {
-	successReturnToOrRedirect: '/profile',
+	successReturnToOrRedirect: '/my',
 	failureRedirect: '/login',
 	failureFlash: true
 }));
