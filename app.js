@@ -330,7 +330,7 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 })
 
 app.get('*', function(req, res){
-	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null});
+	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: false});
 });
 
 var http = require('http');
