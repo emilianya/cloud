@@ -4,9 +4,13 @@
         <div id="scontent" class="dropdown-content hidden w-40 h-48 absolute right-44 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
             <p>settings blah blah</p>
             <div class="form-check form-switch">
-                <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="switch1">
-                <label class="form-check-label inline-block text-gray-800" for="switch1">Something something switch</label>
+                <input onchange="settingUpdate(this)" id="refreshAfterUpload" class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-wwhite bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm checked:bg-wgreen checked:border-wgreen" type="checkbox" role="switch" id="refreshAfterUpload">
+                <label class="form-check-label inline-block text-wdark" for="refreshAfterUpload">Refresh page after file upload</label>
               </div>
+              <div class="form-check form-switch">
+                  <input onchange="settingUpdate(this)" id="privateFiles" class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-wwhite bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm checked:bg-wgreen checked:border-wgreen" type="checkbox" role="switch" id="privateFiles">
+                  <label class="form-check-label inline-block text-wdark" for="privateFiles">Make uploads private</label>
+                </div>
             <button class="button-dark button-blue">buton!</button>
         </div>
     </div>
@@ -19,6 +23,17 @@
     </div>
 </div>
 <script>
+    function sInit() {
+        document.getElementById("refreshAfterUpload").checked = settings.refreshAfterUpload;
+        document.getElementById("privateFiles").checked = settings.privateFiles;
+    }
+    function settingUpdate(element) {
+        var setting = element.id;
+        var value;
+        if (element.type == "checkbox") value = element.checked
+        settings[setting] = value;
+        localStorage.setItem("settings", JSON.stringify(settings));
+    }
     let udropdownState = false;
     let sdropdownState = false;
     function udropdown(forceClose) {
