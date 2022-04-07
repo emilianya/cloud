@@ -37,7 +37,7 @@
 
 <% if (my) { %>
 <script>
-    const my = true
+    const myfilespage = true
     function sInit() {
         document.getElementById("refreshAfterUpload").checked = settings.refreshAfterUpload;
         document.getElementById("privateFiles").checked = settings.privateFiles;
@@ -73,7 +73,7 @@
     function udropdown(forceClose) {
         udropdownState = !udropdownState;
         if (forceClose) udropdownState = false;
-        if (my !== undefined && !forceClose) sdropdown(true);
+        if (myfilespage && !forceClose) sdropdown(true);
         if (udropdownState) {
             document.querySelector("#ucontent").classList.remove("hidden");
             document.querySelector("#ubutton").classList.add(`bg-wlight${localStorage.theme == "dark" ? "-dark" : ""}`);
