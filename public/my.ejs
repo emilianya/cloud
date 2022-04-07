@@ -52,7 +52,7 @@
 		}
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://upload.wanderers.cloud");
-		xhr.withCredentials = true;
+		xhr.setRequestHeader("authentication", "<%=user.uploadKey%>");
 		if(settings.privateFiles) xhr.setRequestHeader("w-private", "true");
 		xhr.upload.addEventListener("progress", updateProgress)
 		xhr.upload.addEventListener("loadend", e => {
