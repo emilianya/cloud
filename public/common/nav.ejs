@@ -16,7 +16,7 @@
     </div>
     <div id="ubutton" class="hover:bg-wlight rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown(false)">
         <p class="inline truncate" title="<%=user.username%>"><%=user.username%></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
-        <div id="ucontent" class="dropdown-content hidden w-40 h-48 absolute right-2 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl" onclick="event.stopPropagation();">
+        <div id="ucontent" class="dropdown-content hidden w-40 absolute right-2 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl" onclick="event.stopPropagation();">
             <div class="hover:bg-wlight py-4 px-2"><p>My profile</p></div>
             <a href="/logout"><div class="hover:bg-wlight py-4 px-2"><p>Logout</p></div></a><br>
         </div>
