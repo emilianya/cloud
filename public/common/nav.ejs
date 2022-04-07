@@ -69,12 +69,11 @@
 <% } %>
 
 <script>
-    if(!my) my = false
     let udropdownState = false;
     function udropdown(forceClose) {
         udropdownState = !udropdownState;
         if (forceClose) udropdownState = false;
-        if (my && !forceClose) sdropdown(true);
+        if (my !== undefined && !forceClose) sdropdown(true);
         if (udropdownState) {
             document.querySelector("#ucontent").classList.remove("hidden");
             document.querySelector("#ubutton").classList.add(`bg-wlight${localStorage.theme == "dark" ? "-dark" : ""}`);
