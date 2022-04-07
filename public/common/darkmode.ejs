@@ -15,9 +15,14 @@ function toggleTheme() {
 	if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 		localStorage.theme = 'light'
     	document.documentElement.classList.remove('dark')
+		document.querySelector(".themeSwitch").classList.add("fa-moon")
+		document.querySelector(".themeSwitch").classList.remove("fa-sun")
+
 	} else {
 		localStorage.theme = 'dark'
     	document.documentElement.classList.add('dark')
+		document.querySelector(".themeSwitch").classList.add("fa-sun")
+		document.querySelector(".themeSwitch").classList.remove("fa-moon")
 	}
 }
 </script>
