@@ -3,19 +3,11 @@
 @tailwind utilities;
 
 .button {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-black bg-wwhite;
-}
-
-.button-blue {
-    @apply text-wblue hover:text-wwhite hover:bg-wblue;
+    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wdark bg-wwhite dark:text-wwhite dark:bg-wdark hover:bg-wblue hover:text-wwhite;
 }
 
 .button-dark {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wwhite bg-wdark;
-}
-
-.button-light {
-    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wdark bg-wwhite;
+    @apply whitespace-normal inline-flex items-center px-4 py-2 rounded-lg shadow-md text-wwhite bg-wdark dark:text-wdark dark:bg-wwhite hover:bg-wblue hover:text-wwhite;
 }
 
 .input-box {
