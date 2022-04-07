@@ -2,7 +2,8 @@ module.exports = {
   content: [
 	"./public/*.ejs",
 	"./public/common/*.ejs",
-  "./public/resources/*.js"
+  "./public/resources/*.js",
+  './node_modules/tw-elements/dist/js/**/*.js'
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
@@ -24,6 +25,7 @@ module.exports = {
     extend: {}
   },
   plugins: [
-    require('@tailwindcss/line-clamp')
+    require('@tailwindcss/line-clamp'),
+    require('tw-elements/dist/plugin')
   ],
 }
