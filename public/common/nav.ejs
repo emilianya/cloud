@@ -1,12 +1,12 @@
 <div class="bg-wwhite text-wdark w-full h-12 mb-5 flex">
-    <div id="sbutton" class="hover:bg-[#e0e0e0] rounded-md w-12 my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer" onclick="sdropdown(false)">
+    <div id="sbutton" class="hover:bg-wlight rounded-md w-12 my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer" onclick="sdropdown(false)">
         <p class="inline truncate" title="Settings"><i class="fa-solid fa-gear"></i></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
         <div id="scontent" class="dropdown-content hidden w-40 h-48 absolute right-44 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
             <p>settings blah blah</p>
             <button class="button-dark button-blue">buton!</button>
         </div>
     </div>
-    <div id="ubutton" class="hover:bg-[#e0e0e0] rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown(false)">
+    <div id="ubutton" class="hover:bg-wlight rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown(false)">
         <p class="inline truncate" title="<%=user.username%>"><%=user.username%></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
         <div id="ucontent" class="dropdown-content hidden w-40 h-48 absolute right-2 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
             <p>asd</p><br>
@@ -23,10 +23,10 @@
         if (!forceClose) sdropdown(true);
         if (udropdownState) {
             document.querySelector("#ucontent").classList.remove("hidden");
-            document.querySelector("#ubutton").classList.add("bg-[#e0e0e0]");
+            document.querySelector("#ubutton").classList.add("bg-wlight");
         } else {
             document.querySelector("#ucontent").classList.add("hidden");
-            document.querySelector("#ubutton").classList.remove("bg-[#e0e0e0]");
+            document.querySelector("#ubutton").classList.remove("bg-wlight");
         }
     }
     function sdropdown(forceClose) {
@@ -35,10 +35,10 @@
         if (!forceClose) udropdown(true);
         if (sdropdownState) {
             document.querySelector("#scontent").classList.remove("hidden");
-            document.querySelector("#sbutton").classList.add("bg-[#e0e0e0]");
+            document.querySelector("#sbutton").classList.add("bg-wlight");
         } else {
             document.querySelector("#scontent").classList.add("hidden");
-            document.querySelector("#sbutton").classList.remove("bg-[#e0e0e0]");
+            document.querySelector("#sbutton").classList.remove("bg-wlight");
         }
     }
 </script>
