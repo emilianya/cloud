@@ -73,7 +73,7 @@
     function udropdown(forceClose) {
         udropdownState = !udropdownState;
         if (forceClose) udropdownState = false;
-        if (typeof myfilespage !== undefined && !forceClose) sdropdown(true);
+        if (typeof myfilespage !== "undefined" && !forceClose) sdropdown(true);
         if (udropdownState) {
             document.querySelector("#ucontent").classList.remove("hidden");
             document.querySelector("#ubutton").classList.add(`bg-wlight${localStorage.theme == "dark" ? "-dark" : ""}`);
