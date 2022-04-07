@@ -196,7 +196,7 @@ app.get('/terms', function(req, res){
 
 app.get('/delete', checkAuth, function(req,res) {
 	user = req.user._id ? req.user : req.user[0]
-	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
+	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken()})
 })
 
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
@@ -330,7 +330,7 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 })
 
 app.get('*', function(req, res){
-	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: false});
+	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null});
 });
 
 var http = require('http');
