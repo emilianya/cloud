@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
-    <link rel="stylesheet" href="/resources/style.css">
+    <title>Wanderer's Cloud - Login</title>
+    <%- include('./common/darkmode.ejs') %>
   </head>
   <body class="bg-gray-900">
+    <%- include("./common/nav.ejs", {user: user, my: false}); %> 
     <form action="/login/password" method="post" class="mt-20p text-center space-y-5">
     <input type="hidden" name="_csrf" value="<%=csrfToken %>">
     <input type="email" name="username" class="input-box" placeholder="Email"><br>

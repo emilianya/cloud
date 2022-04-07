@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html>
 <head>
     <title>Error</title>
-    <link rel="stylesheet" href="/resources/style.css">
-</head>
+    <%- include('./common/darkmode.ejs') %>
+  </head>
+  <body class="bg-gray-900">
+    <%- include("./common/nav.ejs", {user: user, my: false}); %> 
 <h2>something broke</h2>
 <%=friendlyError %><br>
 <%=stacktrace %>
+</body>
+</html>

@@ -1,8 +1,11 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/resources/style.css">
-    </head>
-	<body>
+        <title>Wanderer's Cloud - Change username</title>
+        <%- include('./common/darkmode.ejs') %>
+      </head>
+      <body class="bg-gray-900">
+        <%- include("./common/nav.ejs", {user: user, my: false}); %> 
         <form method="post">
             <label for="username">New Username:</label>
             <input type="hidden" name="_csrf" value="<%=csrfToken %>">

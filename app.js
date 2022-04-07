@@ -81,15 +81,15 @@ function popupMid(req, res, next) {
 }
 
 app.get('/', (req, res) => {
-	res.render(`${__dirname}/public/index.ejs`)
+	res.render(`${__dirname}/public/index.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null})
 });
 
 app.get('/login', (req, res) => {
-	res.render(`${__dirname}/public/login.ejs`, {csrfToken: req.csrfToken()})
+	res.render(`${__dirname}/public/login.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null})
 });
 
 app.get('/register', (req, res) => {
-	res.render(`${__dirname}/public/register.ejs`, {csrfToken: req.csrfToken()})
+	res.render(`${__dirname}/public/register.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null})
 });
 
 app.get("/sharex.sxcu", checkAuth, (req, res) => {
@@ -268,9 +268,9 @@ function checkUploadKey(req, cb) {
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
 	if(err.message == 'Invalid "code" in request.') {
-		return res.status(500).render(`${__dirname}/public/error.ejs`, { stacktrace: null, friendlyError: "It looks like we couldn't log you in. Would you mind <a href='/login'>trying that again</a>?" });
+		return res.status(500).render(`${__dirname}/public/error.ejs`, { stacktrace: null, friendlyError: "It looks like we couldn't log you in. Would you mind <a href='/login'>trying that again</a>?", user: req.isAuthenticated() ? req.user : null});
 	}
-	res.status(500).render(`${__dirname}/public/error.ejs`, { stacktrace: err.stack, friendlyError: null });
+	res.status(500).render(`${__dirname}/public/error.ejs`, { stacktrace: err.stack, friendlyError: null, user: req.isAuthenticated() ? req.user : null});
 });
 
 app.get('/.well-known/security.txt', function (req, res) {
@@ -330,7 +330,7 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 })
 
 app.get('*', function(req, res){
-	res.status(404).render(`${__dirname}/public/404.ejs`);
+	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null});
 });
 
 var http = require('http');
