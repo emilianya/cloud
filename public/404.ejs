@@ -5,9 +5,13 @@
         <%- include('./common/darkmode.ejs') %>
     </head>
     <body class="bg-gray-900">
-        <%- include("./common/nav.ejs", {user: user, my: false}); %> 
-        <p class="text-5xl">404</p>
-        <p>This page couldn't be found. Are you sure it exists?</p><br>
-        <a class="button" href="/">Back to safety</a>
+        <%- include("./common/nav.ejs", {user: user, my: false}); %>
+        <div class="text-wwhite flex">
+            <div class="m-auto">
+                <p class="text-5xl">404</p>
+                <p>This page couldn't be found. Are you sure it exists?</p><br>
+                <a class="button" href="/">Back to safety</a>
+            </div>
+        </div>
     </body>
 </html>
