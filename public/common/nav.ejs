@@ -1,7 +1,7 @@
 <div class="bg-wwhite text-wdark w-full h-12 mb-5 flex">
     <div id="sbutton" class="hover:bg-wlight rounded-md w-12 my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer" onclick="sdropdown(false)">
         <p class="inline truncate" title="Settings"><i class="fa-solid fa-gear"></i></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
-        <div id="scontent" class="dropdown-content hidden w-40 h-48 absolute right-44 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
+        <div id="scontent" class="dropdown-content hidden w-40 absolute right-44 z-[60] top-12 bg-wwhite text-wdark rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
             <div class="form-check form-switch py-1">
                 <input onchange="settingUpdate(this)" id="refreshAfterUpload" class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-wwhite bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm checked:bg-wgreen checked:border-wgreen" type="checkbox" role="switch" id="refreshAfterUpload">
                 <label class="form-check-label inline-block text-wdark" for="refreshAfterUpload">Refresh page after file upload</label>
