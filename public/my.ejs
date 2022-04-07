@@ -28,16 +28,17 @@
 	let settings = localStorage.getItem('_wcloud-settings');
     let firstTime = false
     if (!settings) {
-        localStorage.setItem('_wcloud-settings', JSON.stringify({refreshAfterUpload: false, privateFiles: true}));
-        firstTime = true;
+        localStorage.setItem('_wcloud-settings', JSON.stringify({refreshAfterUpload: false, privateFiles: true, firstTime: true}));
     }
 	settings = JSON.parse(localStorage.getItem('_wcloud-settings'));
 	sInit();
 	let hideTimeout
 	const getFormDataSize = (formData) => [...formData].reduce((size, [name, value]) => size + (typeof value === 'string' ? value.length : value.size), 0); //thank you stackoverflow
 	document.getElementById("fileUpload").addEventListener("change", (e) => {
-		if(firstTime) {
+		if(settings.firstTime) {
 			alert("By default your uploads will be private, you can change this in the settings.")
+			settings.firstTime = false;
+			localStorage.setItem('_wcloud-settings', JSON.stringify(settings));
 		}
 		clearTimeout(hideTimeout);
 		const formData = new FormData();

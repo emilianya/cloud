@@ -32,7 +32,7 @@
         var value;
         if (element.type == "checkbox") value = element.checked
         settings[setting] = value;
-        localStorage.setItem("settings", JSON.stringify(settings));
+        localStorage.setItem("_wcloud-settings", JSON.stringify(settings));
     }
     let udropdownState = false;
     let sdropdownState = false;
