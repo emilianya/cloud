@@ -4,8 +4,9 @@
 	<title>My files</title>
 	<link rel="stylesheet" href="/resources/style.css">
 	<script src="https://kit.fontawesome.com/1b8f1d833c.js" crossorigin="anonymous"></script>
+	<%- include('./common/darkmode.ejs') %>
   </head>
-  <body class="bg-gray-900">
+  <body class="bg-gray-900 dark:bg-wwhite">
 	<%- include("./common/nav.ejs", {user: user}); %> 
 	<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
 		
