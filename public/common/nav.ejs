@@ -2,11 +2,22 @@
     <div class="hover:bg-[#e0e0e0] rounded-md w-12 my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer">
         <p class="inline truncate" title="Settings"><i class="fa-solid fa-gear"></i></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
     </div>
-    <div class="hover:bg-[#e0e0e0] rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer">
+    <div class="hover:bg-[#e0e0e0] rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown()">
         <p class="inline truncate" title="<%=user.username%>"><%=user.username%></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
-        <div class="dropdown-content hidden w-40 h-48 absolute right-0 z-[60]">
+        <div class="dropdown-content hidden w-40 h-48 absolute right-0 z-[60] top-12 bg-wwhite">
             <p>asd</p><br>
             <p>fgh</p>
         </div>
     </div>
 </div>
+<script>
+    let udropdownState = false;
+    function udropdown() {
+        udropdownState = !udropdownState;
+        if (udropdownState) {
+            document.querySelector(".dropdown-content").classList.remove("hidden");
+        } else {
+            document.querySelector(".dropdown-content").classList.add("hidden");
+        }
+    }
+</script>
