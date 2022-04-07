@@ -28,7 +28,7 @@
 	let settings = localStorage.getItem('_wcloud-settings');
     let firstTime = false
     if (!settings) {
-        localStorage.setItem('_wcloud-settings', JSON.stringify({refreshAfterUpload: false, privateFiles: true, firstTime: true}));
+        localStorage.setItem('_wcloud-settings', JSON.stringify({refreshAfterUpload: true, privateFiles: true, firstTime: true}));
     }
 	settings = JSON.parse(localStorage.getItem('_wcloud-settings'));
 	sInit();
