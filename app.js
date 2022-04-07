@@ -85,8 +85,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-	console.log(req.isAuthenticated())
-	if (req.isAuthenticated()) console.log(req.user)
 	res.render(`${__dirname}/public/login.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null})
 });
 
