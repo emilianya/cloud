@@ -9,9 +9,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'wdark': '#3c3c45',
+        'wwhite': '#3c3c45',
         'wgreen': '#70ee9c',
-        'wwhite': "#f3eff5",
+        'wdark': "#f3eff5",
         'wblue': '#2589bd',
         'wblue-dark': '#227baa',
         'wlight': '#e0e0e0'
