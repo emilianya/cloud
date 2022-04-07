@@ -57,6 +57,7 @@
 		xhr.upload.addEventListener("progress", updateProgress)
 		xhr.upload.addEventListener("loadend", e => {
 			document.getElementById("uploadProgressText").innerHTML = `Processing...`;
+			document.getElementById("fileUpload").value = "";
 		})
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {
