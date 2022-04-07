@@ -1,8 +1,8 @@
 <div class="bg-wwhite dark:bg-wdark text-wdark dark:text-wwhite w-full h-12 mb-5 flex">
-    <div id="themeSwitch" class="hover:bg-wlight rounded-md my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer" onclick="toggleTheme()">
+    <div id="themeSwitch" class="hover:bg-wlight dark:hover:bg-wlight-dark rounded-md my-auto ml-auto mr-2 inline-flex p-2 cursor-pointer" onclick="toggleTheme()">
         <i title="Toggle darkmode" class="themeSwitch fa-solid"></i>
     </div>
-    <div id="sbutton" class="hover:bg-wlight rounded-md w-12 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="sdropdown(false)">
+    <div id="sbutton" class="hover:bg-wlight dark:hover:bg-wlight-dark rounded-md w-12 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="sdropdown(false)">
         <p class="inline truncate" title="Settings"><i class="fa-solid fa-gear"></i></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
         <div id="scontent" class="dropdown-content hidden w-40 absolute right-44 z-[60] top-12 bg-wwhite text-wdark dark:bg-wdark dark:text-wwhite rounded-b-lg cursor-auto shadow-xl p-2" onclick="event.stopPropagation();">
             <div class="form-check form-switch py-1">
@@ -15,12 +15,12 @@
             </div>
         </div>
     </div>
-    <div id="ubutton" class="hover:bg-wlight rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown(false)">
+    <div id="ubutton" class="hover:bg-wlight dark:hover:bg-wlight-dark rounded-md w-40 my-auto mr-2 inline-flex p-2 cursor-pointer" onclick="udropdown(false)">
         <p class="inline truncate" title="<%=user.username%>"><%=user.username%></p><i class="fa-solid fa-angle-down inline my-auto ml-auto"></i>
         <div id="ucontent" class="dropdown-content hidden w-40 absolute right-2 z-[60] top-12 bg-wwhite text-wdark dark:bg-wdark dark:text-wwhite rounded-b-lg cursor-auto shadow-xl" onclick="event.stopPropagation();">
-            <a href="/profile"><div class="hover:bg-wlight py-4 px-2"><p>My profile</p></div></a>
+            <a href="/profile"><div class="hover:bg-wlight dark:hover:bg-wlight-dark py-4 px-2"><p>My profile</p></div></a>
             <% if (user.admin) { %> <a href="/admin"><div class="hover:bg-wlight py-4 px-2"><p>Console</p></div></a><% } %> 
-            <a href="/logout"><div class="hover:bg-wlight rounded-b-lg py-4 px-2"><p>Logout</p></div></a>
+            <a href="/logout"><div class="hover:bg-wlight dark:hover:bg-wlight-dark rounded-b-lg py-4 px-2"><p>Logout</p></div></a>
         </div>
     </div>
 </div>
@@ -44,10 +44,11 @@
         if (!forceClose) sdropdown(true);
         if (udropdownState) {
             document.querySelector("#ucontent").classList.remove("hidden");
-            document.querySelector("#ubutton").classList.add("bg-wlight");
+            document.querySelector("#ubutton").classList.add(`bg-wlight${localStorage.theme == "dark" ? "-dark" : ""}`);
         } else {
             document.querySelector("#ucontent").classList.add("hidden");
             document.querySelector("#ubutton").classList.remove("bg-wlight");
+            document.querySelector("#ubutton").classList.remove("bg-wlight-dark");
         }
     }
     function sdropdown(forceClose) {
@@ -56,10 +57,11 @@
         if (!forceClose) udropdown(true);
         if (sdropdownState) {
             document.querySelector("#scontent").classList.remove("hidden");
-            document.querySelector("#sbutton").classList.add("bg-wlight");
+            document.querySelector("#sbutton").classList.add(`bg-wlight${localStorage.theme == "dark" ? "-dark" : ""}`);
         } else {
             document.querySelector("#scontent").classList.add("hidden");
             document.querySelector("#sbutton").classList.remove("bg-wlight");
+            document.querySelector("#ubutton").classList.remove("bg-wlight-dark");
         }
     }
 </script>
