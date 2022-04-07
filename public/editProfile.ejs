@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/resources/style.css">
+    </head>
+	<body>
+        <form method="post">
+            <label for="username">New Username:</label>
+            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+            <input class="text-wdark rounded-lg h-10" type="text" id="username" name="username" placeholder="<%=user.username %>"></input>
+            <input class="text-wdark button button-blue" type="submit" value="Change Username"/>
+        </form>
+    </body>
+</html>
