@@ -199,10 +199,6 @@ app.get('/delete', checkAuth, function(req,res) {
 	res.render(__dirname + "/public/deleteConfirm.ejs", {csrfToken: req.csrfToken(), twoFactor: user.twoFactor})
 })
 
-app.get('/upload', (req, res) => {
-	res.render(__dirname + "/public/upload.ejs", {csrfToken: req.csrfToken()})
-})
-
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	let many = false
 	let manyArray = []
