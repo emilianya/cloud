@@ -6,7 +6,7 @@
 	<script src="https://kit.fontawesome.com/1b8f1d833c.js" crossorigin="anonymous"></script>
 	<%- include('./common/darkmode.ejs') %>
   </head>
-  <body class="bg-gray-900 dark:bg-wwhite">
+  <body class="bg-gray-900">
 	<%- include("./common/nav.ejs", {user: user}); %> 
 	<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
 		
@@ -19,8 +19,8 @@
 	</div>
 	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wblue text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-50 flex cursor-pointer hover:bg-wblue-dark transition-all duration-[100ms]"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
 	<input type="file" hidden id="fileUpload" multiple />
-	<div class="w-56 h-10 bg-wwhite rounded-lg hidden fixed bottom-32 right-10 flex p-2 transition-all duration-[100ms] z-50" id="progressWidget">
-		<div class="w-full h-6 bg-wdark rounded-full margin-auto">
+	<div class="w-56 h-10 bg-wwhite dark:bg-wdark rounded-lg hidden fixed bottom-32 right-10 flex p-2 transition-all duration-[100ms] z-50" id="progressWidget">
+		<div class="w-full h-6 bg-wdark dark:bg-wlight rounded-full margin-auto">
 			<div id="uploadProgress" class="bg-wblue h-6 text-sm font-medium text-wwhite text-center p-1 leading-none rounded-full" style="width: 0%;transition: all 0.1s ease 0s;"> <span id="uploadProgressText">0%</span></div>
 		</div>
 	</div>
