@@ -7,6 +7,9 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    screens: {
+      'xs': '320px',
+    },
     extend: {
       colors: {
         'wdark': '#3c3c45',
