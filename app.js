@@ -329,6 +329,10 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 	})
 })
 
+app.get('/favicon.ico', (req, res) => {
+	res.sendFile(`${__dirname}/public/favicon.ico`);
+})
+
 app.get('*', function(req, res){
 	res.status(404).render(`${__dirname}/public/404.ejs`, {csrfToken: req.csrfToken(), user: req.isAuthenticated() ? req.user : null});
 });
