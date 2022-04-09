@@ -12,7 +12,7 @@
 				return b.uploadedAt - a.uploadedAt;
 			});
 			files.forEach(file => { %>
-			<%- include("./common/file.ejs", {file: file, csrfToken}); %>
+			<%- include("./common/file.ejs", {file: file, csrfToken, ww}); %>
 		<% }); %>
 	</div>
 	<a onclick="document.getElementById('fileUpload').click()" class="fixed bottom-10 right-10 bg-wblue text-wwhite text-center rounded-full align-middle drop-shadow-lg w-16 h-16 z-50 flex cursor-pointer hover:bg-wblue-dark transition-all duration-[100ms]"><i class="fa-solid fa-plus text-2xl m-auto"></i></a>
