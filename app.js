@@ -57,7 +57,8 @@ app.use(session({
 	secret: process.env.SESSION_SECRET,
 	resave: true,
 	saveUninitialized: true,
-	store: store
+	store: store,
+	expires: Date(Date.now() + (365 * 86400 * 1000))
 }));
 
 app.use(cors())
