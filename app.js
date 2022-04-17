@@ -155,6 +155,14 @@ app.get('/admin', checkAuth, (req, res) => {
 	})
 })
 
+app.get('/test', checkAuth, (req, res) => { 
+	let user = req.user._id ? req.user : req.user[0]
+	db.getUser(user._id, user => {
+		if(!user.admin) return res.status(403).send("You do not have permission to access this page.")
+		res.render(__dirname + '/public/test.ejs', {user: user, csrfToken: req.csrfToken()});
+	})
+})
+
 app.post('/admin', checkAuth, (req, res) => {
 	let user = req.user._id ? req.user : req.user[0]
 	db.getUser(user._id, user => {

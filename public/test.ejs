@@ -1,0 +1,28 @@
+<p id="output"></p>
+<script>
+    let xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://upload.wanderers.cloud");
+		xhr.setRequestHeader("authentication", "<%=user.uploadKey%>");
+		if(settings.privateFiles) xhr.setRequestHeader("w-private", "true");
+		xhr.upload.addEventListener("progress", updateProgress)
+		xhr.upload.addEventListener("loadend", e => {
+			document.getElementById("uploadProgressText").innerHTML = `Processing...`;
+			document.getElementById("fileUpload").value = "";
+		})
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("output").innerHTML = JSON.stringify(xhr);
+				document.getElementById("uploadProgressText").innerHTML = `Done`;
+				hideTimeout = setTimeout(() => {
+					document.getElementById("progressWidget").classList.add("hidden");
+					if (settings.refreshAfterUpload) {
+						location.reload();
+					}
+				}, settings.refreshAfterUpload ? 500 : 5000);
+			} else if (xhr.readyState == 4 && xhr.status != 200) {
+                document.getElementById("output").innerHTML = JSON.stringify(xhr);
+				alert(`${xhr.status}: ${xhr.responseText}`)
+			}
+		}
+		xhr.send(formData);
+</script>
