@@ -1,7 +1,7 @@
 <p id="output"></p>
 <script>
     let formData = new FormData();
-    formData.append("file", new File());
+    formData.append("file", new File(["test"], "test.txt"));
     let xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://upload.wanderers.cloud");
 		xhr.setRequestHeader("authentication", "<%=user.uploadKey%>");
