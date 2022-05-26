@@ -99,7 +99,6 @@ function getUser(userId, callback) {
 			callback(null, err)
 			console.log(err)
 		};
-		if(!doc.RVNid) doc.RVNid = doc._id.toString().substr(8); doc.save();
 		callback(doc, null)
 	})
 }
