@@ -207,7 +207,6 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		uploadedAt: new Date(),
 		private: private
 	})
-	if(user?.persistAll) file.persistent = true;
 	if (user)
 	file.save(function (err, doc) {
 		if(err) {
@@ -215,6 +214,7 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 			return console.error(err);
 		}
 		doc.fileName = doc._id.toString() + path.extname(originalFileName)
+		if(user?.persistAll) doc.persistent = true;
 		doc.save()
 		cb({name: doc.fileName})
 	})
