@@ -3,6 +3,7 @@ require("dotenv").config();
 mongoose.connect(process.env.MONGODB_HOST);
 const crypto = require("crypto");
 const path = require("path");
+const {isValidObjectId} = require("mongoose");
 //const nodemailer = require("nodemailer");
 //deal with email later
 
@@ -30,7 +31,8 @@ db.once('open', function() {
 		uploadedAt: Date,
 		mime: String,
 		persistent: Boolean,
-		private: Boolean
+		private: Boolean,
+		shortId: String
 	  });
 	File = mongoose.model('File', fileSchema);
 	const inviteSchema = new mongoose.Schema({
@@ -99,7 +101,7 @@ function getUser(userId, callback) {
 		if(err) {
 			callback(null, err)
 			console.log(err)
-		};
+		}
 		callback(doc, null)
 	})
 }
@@ -206,7 +208,8 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		mime, mime,
 		uploadedBy: user._id,
 		uploadedAt: new Date(),
-		private: private
+		private: private,
+		shortId: crypto.randomBytes(4).toString("ucs2")
 	})
 	if (user)
 	file.save(function (err, doc) {
@@ -214,10 +217,10 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 			cb({error: err})
 			return console.error(err);
 		}
-		doc.fileName = doc._id.toString() + path.extname(originalFileName)
+		doc.fileName = doc.shortId + path.extname(originalFileName)
 		if(user?.persistAll) doc.persistent = true;
 		doc.save()
-		cb({name: doc.fileName})
+		cb({name: doc.fileName, shortName: doc.shortId})
 	})
 }
 
@@ -229,13 +232,24 @@ function checkUploadKey(key, cb) {
 }
 
 function getFile(fileId, cb) {
-	File.findOne({_id: fileId}, (err, doc) => {
-		if(err) {
-			cb(null)
-			return console.error(err);
-		}
-		cb(doc)
-	})
+	if (isValidObjectId(fileId)) {
+		File.findOne({_id: fileId}, (err, doc) => {
+			if(err) {
+				cb(null)
+				return console.error(err);
+			}
+			cb(doc)
+		})
+	} else {
+		if (fileId.includes(".")) fileId = id.split(".")[0]
+		File.findOne({shortId: fileId}, (err, doc) => {
+			if(err) {
+				cb(null)
+				return console.error(err);
+			}
+			cb(doc)
+		})
+	}
 }
 
 function getUserFiles(userId, cb) {

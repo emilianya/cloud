@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
 	filename: function (req, file, cb) {
 		db.createFile(req.user._id ? req.user : req.user[0], req.headers["w-private"] ? true : req.body["w-private"] ? true : false, file.originalname, file.mimetype, file.size, res => {
 			if (res.error) return cb(res.error)
-			cb(null, res.name)
+			let desiredName = res.name
+			cb(null, desiredName)
 		}) // this creates an entry in the database for the file to store the uploader, size, if file is private, date and name, and supplies multer with the filename consisting of _id.extension
 	}
 })
@@ -211,12 +212,17 @@ app.get('/delete', checkAuth, function(req,res) {
 app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	let many = false
 	let manyArray = []
+	let domain = req.headers["w-domain"] || "wanderers.cloud";
+	if (req.headers["w-domains"]) {
+		domain = req.headers["w-domains"].split(";")
+		domain = domain[Math.floor(Math.random()*domain.length)];
+	}
 	if(req.files.length > 1) many = true
 	if(req.files.length < 1) return res.sendStatus(204)
 	req.files.forEach(file => {
 		let fileId = file.filename
-		if(!many) res.send(`https://wanderers.cloud/file/${fileId}`);
-		if(many) manyArray.push(`https://wanderers.cloud/file/${fileId}`)
+		if (!many) res.send(`https://${domain}/file/${fileId}`);
+		if (many) manyArray.push(`https://${domain}/file/${fileId}`);
 	})
 	if (many) res.send(manyArray);
 })
@@ -301,19 +307,20 @@ app.get("/file/:id", (req, res) => {
 	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
+		let filename = file.fileName;
 		if(file.private) {
 			checkUploadKey(req, user => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
+				if (req?.query?.test) return res.render(`${__dirname}/public/test2.ejs`, { file })
 				res.contentType(file.mime);
-				if (!preview) res.download(`/share/wcloud/${file.fileName}`, file.originalName)
-				if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
+				res.sendFile(`/share/wcloud/${filename}`)
 			})
 		} else {
-			if (file.mime.includes("html")) preview = false; 
+			if (file.mime.includes("html")) preview = false;
+			if (req?.query?.test) return res.render(`${__dirname}/public/test2.ejs`, { file })
 			res.contentType(file.mime);
-			if (!preview) res.download(`/share/wcloud/${file.fileName}`, file.originalName)
-			if (preview) res.sendFile(`/share/wcloud/${file.fileName}`)
+			res.sendFile(`/share/wcloud/${filename}`)
 		}
 	})
 })
@@ -347,6 +354,7 @@ app.get('*', function(req, res){
 });
 
 var http = require('http');
+const {isValidObjectId} = require("mongoose");
 
 const httpServer = http.createServer(app);
 
