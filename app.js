@@ -221,8 +221,9 @@ app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	if(req.files.length < 1) return res.sendStatus(204)
 	req.files.forEach(file => {
 		let fileId = file.filename
-		if (!many) res.send(`https://${domain}/file/${fileId}`);
-		if (many) manyArray.push(`https://${domain}/file/${fileId}`);
+		let hideUrl = !req.headers["w-show"]
+		if (!many) res.send(`https://${domain}/file/${fileId}${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"}`);
+		if (many) manyArray.push(`https://${domain}/file/${fileId}${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"}`);
 	})
 	if (many) res.send(manyArray);
 })
@@ -312,13 +313,11 @@ app.get("/file/:id", (req, res) => {
 			checkUploadKey(req, user => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
-				if (req?.query?.test) return res.render(`${__dirname}/public/test2.ejs`, { file })
 				res.contentType(file.mime);
 				res.sendFile(`/share/wcloud/${filename}`)
 			})
 		} else {
 			if (file.mime.includes("html")) preview = false;
-			if (req?.query?.test) return res.render(`${__dirname}/public/test2.ejs`, { file })
 			res.contentType(file.mime);
 			res.sendFile(`/share/wcloud/${filename}`)
 		}

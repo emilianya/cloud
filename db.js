@@ -209,7 +209,7 @@ function createFile(user, private, originalFileName, mime, size, cb) {
 		uploadedBy: user._id,
 		uploadedAt: new Date(),
 		private: private,
-		shortId: crypto.randomBytes(4).toString("ucs2")
+		shortId: crypto.randomBytes(4).toString("base64url")
 	})
 	if (user)
 	file.save(function (err, doc) {
