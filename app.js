@@ -222,8 +222,8 @@ app.post('/upload', checkUploadAuth, upload.any(), async (req, res) => {
 	req.files.forEach(file => {
 		let fileId = file.filename
 		let hideUrl = !req.headers["w-show"]
-		if (!many) res.send(`https://${domain}/file/${fileId}${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"}`);
-		if (many) manyArray.push(`https://${domain}/file/${fileId}${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"}`);
+		if (!many) res.send(`${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"} https://${domain}/file/${fileId}`);
+		if (many) manyArray.push(`${hideUrl ? "" : "﻿‌‌‌​​‌‌⁠‌‌​​‌​‌⁠‌‌​​​‌‌⁠‌‌‌​​‌​⁠‌‌​​‌​‌⁠‌‌‌​‌​​⁠‌‌‌​​‌‌⁠‌​​​​​⁠‌‌‌​‌‌⁠‌​​‌‌‌‌﻿"} https://${domain}/file/${fileId}`);
 	})
 	if (many) res.send(manyArray);
 })
