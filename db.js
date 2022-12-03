@@ -289,7 +289,7 @@ function deleteFileShort(fileId, user, cb) {
 			console.error(err);
 			return cb({code: 500, file: null})
 		}
-		File.deleteOne({_id: fileId}, (err, res) => {
+		File.deleteOne({shortId: fileId}, (err, res) => {
 			if (err) {
 				console.error(err);
 				return cb({code: 500, file: null})
