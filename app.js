@@ -74,6 +74,7 @@ app.use(csrf({cookie: true, sessionKey: process.env.SESSION_SECRET}))
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload", "/api/files"]
+	if (req.url.startsWith("/file")) return next();
 	if(!csrfWhitelist.includes(req.url)) return res.send("Couldn't verify Cross Site Request Forgery prevention")
 	if(csrfWhitelist.includes(req.url)) return next()
 })
@@ -336,6 +337,17 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 	let id = req.body.id
 	if(!id) return res.status(400).send({error: "No file id provided"})
 	db.deleteFile(id, req.user, result => {
+		if(result.code == 500) return res.status(500).send({error: "Internal server error"})
+		if(result.code == 404) return res.status(404).send({error: "No such file exists"})
+		if(result.code == 403) return res.status(403).send({error: "That file is not yours"})
+		fs.unlinkSync(`/share/wcloud/${result.file.fileName}`)
+		res.status(200).send({error: null})
+	})
+})
+
+app.delete("/file/:id", checkUploadAuth, (req, res ) => {
+	if (!req.params.id) return res.status(400).json({error: "no file id provided"});
+	db.deleteFileShort(req.params.id, req.user, result => {
 		if(result.code == 500) return res.status(500).send({error: "Internal server error"})
 		if(result.code == 404) return res.status(404).send({error: "No such file exists"})
 		if(result.code == 403) return res.status(403).send({error: "That file is not yours"})
