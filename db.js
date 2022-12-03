@@ -314,5 +314,6 @@ module.exports = {
 	checkUploadKey,
 	getFile,
 	getUserFiles,
-	deleteFile
+	deleteFile,
+	deleteFileShort
 }
