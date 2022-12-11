@@ -315,12 +315,14 @@ app.get("/file/:id", (req, res) => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
 				res.contentType(file.mime);
-				res.attachment(`/share/wcloud/${filename}`)
+				res.attachment(filename)
+				res.sendFile(`/share/wcloud/${filename}`)
 			})
 		} else {
 			if (file.mime.includes("html")) preview = false;
 			res.contentType(file.mime);
-			res.attachment(`/share/wcloud/${filename}`)
+			res.attachment(filename)
+			res.sendFile(`/share/wcloud/${filename}`)
 		}
 	})
 })
