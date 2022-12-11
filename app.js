@@ -321,7 +321,7 @@ app.get("/file/:id", (req, res) => {
 		} else {
 			if (file.mime.includes("html")) preview = false;
 			res.contentType(file.mime);
-			res.attachment(filename)
+			res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
 			res.sendFile(`/share/wcloud/${filename}`)
 		}
 	})
