@@ -303,8 +303,8 @@ app.get("/my", checkAuth, (req, res) => {
 })
 
 app.get("/file/:id", (req, res) => {
-	let preview = false
-	if(req.query?.preview) preview = true
+	let download = false
+	if(req.query?.download) download = true
 	let id = req.params.id
 	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
@@ -314,15 +314,23 @@ app.get("/file/:id", (req, res) => {
 			checkUploadKey(req, user => {
 				if(!user) return res.status(403).send("You do not have permission to access this file.")
 				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
-				res.contentType(file.mime);
-				res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
-				res.sendFile(`/share/wcloud/${filename}`)
+				if (!download) {
+					res.contentType(file.mime);
+					res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
+					res.sendFile(`/share/wcloud/${filename}`)
+				} else {
+					res.download(`/share/wcloud/${filename}`, file.originalName)
+				}
 			})
 		} else {
 			if (file.mime.includes("html")) preview = false;
-			res.contentType(file.mime);
-			res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
-			res.sendFile(`/share/wcloud/${filename}`)
+			if (!download) {
+				res.contentType(file.mime);
+				res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
+				res.sendFile(`/share/wcloud/${filename}`)
+			} else {
+				res.download(`/share/wcloud/${filename}`, file.originalName)
+			}
 		}
 	})
 })
