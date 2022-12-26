@@ -304,33 +304,30 @@ app.get("/my", checkAuth, (req, res) => {
 
 app.get("/file/:id", (req, res) => {
 	let download = false
-	if(req.query?.download) download = true
+	if(req.query?.download) download = true;
 	let id = req.params.id
 	if (id.includes(".")) id = id.split(".")[0]
 	db.getFile(id, file => {
 		if(!file) return res.status(404).send("File not found or error occurred")
 		let filename = file.fileName;
-		if(file.private) {
-			checkUploadKey(req, user => {
-				if(!user) return res.status(403).send("You do not have permission to access this file.")
-				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
-				if (!download) {
-					res.contentType(file.mime);
-					res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
-					res.sendFile(`/share/wcloud/${filename}`)
-				} else {
-					res.download(`/share/wcloud/${filename}`, file.originalName)
-				}
-			})
-		} else {
-			if (file.mime.includes("html")) preview = false;
+		const sendRes = () => {
+			if (file.mime.includes("html")) download = true;
 			if (!download) {
 				res.contentType(file.mime);
-				res.append("Content-Disposition", `attachment; filename="${file.originalName}"`)
+				res.append("Content-Disposition", `filename="${file.originalName}"`)
 				res.sendFile(`/share/wcloud/${filename}`)
 			} else {
 				res.download(`/share/wcloud/${filename}`, file.originalName)
 			}
+		}
+		if(file.private) {
+			checkUploadKey(req, user => {
+				if(!user) return res.status(403).send("You do not have permission to access this file.")
+				if(file.uploadedBy.toString() != user._id.toString()) return res.status(403).send("You do not have permission to access this file.")	
+				sendRes();
+			})
+		} else {
+			sendRes();
 		}
 	})
 })
