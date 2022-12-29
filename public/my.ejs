@@ -45,8 +45,8 @@
 		for(let i = 0; i < fileInput.files.length; i++) {
 			formData.append(`file${i}`, fileInput.files[i]);
 		};
-		if (getFormDataSize(formData) > 5368709120) {
-			alert("Your upload exceeds 5GB, are you certain whatever you are doing is worth it?\nIf you really really want to upload over 5GB at once contact us at contact@wanderers.cloud");
+		if (getFormDataSize(formData) > 10737418240) {
+			alert("Your upload exceeds 10GB, are you certain whatever you are doing is worth it?\nIf you really really want to upload over 10GB at once contact us at contact@wanderers.cloud");
 			return;
 		}
 		let xhr = new XMLHttpRequest();
