@@ -235,8 +235,9 @@ app.post("/delete", checkAuth, function(req, res) {
 		if(result == 500) {
 			res.redirect('/resources/500.html');
 		} else {
-			req.logout();
-			res.redirect('/resources/deleted.html');
+			req.logout(err => {
+				res.redirect('/resources/deleted.html');
+			});
 		}
 	});
 })
@@ -250,8 +251,13 @@ app.post("/delete", checkAuth, function(req, res) {
 	}*/
 
 app.get('/logout', function(req, res) {
-	req.logout();
-	res.redirect('/');
+	req.logout(err => {
+		req.session.destroy(e => {
+			if (e) console.log(e)
+			if (err) console.log(err)
+			res.redirect('/');
+		})
+	});
 });
 
 function checkAuth(req, res, next) {
