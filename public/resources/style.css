@@ -3541,6 +3541,12 @@ textarea.form-control.is-invalid {
   position: -webkit-sticky;
   position: sticky;
 }
+.left-5 {
+  left: 1.25rem;
+}
+.right-5 {
+  right: 1.25rem;
+}
 .bottom-10 {
   bottom: 2.5rem;
 }
@@ -3584,6 +3590,9 @@ textarea.form-control.is-invalid {
 }
 .mt-20p {
   margin-top: 20%;
+}
+.mb-16 {
+  margin-bottom: 4rem;
 }
 .mb-5 {
   margin-bottom: 1.25rem;
@@ -3852,13 +3861,13 @@ textarea.form-control.is-invalid {
   font-size: 1.5rem;
   line-height: 2rem;
 }
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 .font-bold {
   font-weight: 700;
@@ -4061,6 +4070,10 @@ textarea.form-control.is-invalid {
   outline: 2px solid transparent;
   outline-offset: 2px;
     box-shadow: 0 0 0 3px rgba(66,153,225,.5)!important;
+}
+
+.hiddenpls {
+  display: none !important;
 }
 
 .checked\:border-wgreen:checked {

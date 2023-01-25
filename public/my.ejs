@@ -5,7 +5,11 @@
 	<%- include('./common/darkmode.ejs') %>
   </head>
   <body class="bg-gray-900">
-	<%- include("./common/nav.ejs", {user: user, my: true}); %> 
+	<%- include("./common/nav.ejs", {user: user, my: true}); %>
+	<div class="mb-16">
+		<i id="pNavLeft" class="fa-solid fa-left-long text-4xl fixed left-5 text-wwhite" onclick="pNavL()"></i>
+		<i id="pNavRight" class="fa-solid fa-right-long text-4xl fixed right-5 text-wwhite" onclick="pNavR()"></i>
+	</div>
 	<div class="grid gap-3 grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
 		
 		<% 	files.sort((a, b) => {
@@ -24,6 +28,34 @@
 	</div>
   </body>
   <script>
+	  let page = 0;
+	  let totalFiles = parseInt("<%=count%>");
+	  const pageFiles = 21;
+	  const params = new Proxy(new URLSearchParams(window.location.search), {
+		  get: (searchParams, prop) => searchParams.get(prop),
+	  });
+	  if (params.page) page = parseInt(params.page);
+
+	  const pNavLeft = document.getElementById("pNavLeft");
+	  const pNavRight = document.getElementById("pNavRight");
+
+	  const pNavL = () => {
+		  if (page > 0) {
+			  page--;
+			  window.location.href = "/my?page=" + page;
+		  }
+	  };
+	  const pNavR = () => {
+		  if (page < Math.ceil(totalFiles / pageFiles) - 1) {
+			  page++;
+			  window.location.href = "/my?page=" + page;
+		  }
+	  };
+
+	  if (page === 0) pNavLeft.classList.add("hiddenpls");
+	  // Hide right arrow if there are no more pages
+	  if (pageFiles * (page + 1) >= totalFiles) pNavRight.classList.add("hiddenpls");
+
 	let settings = localStorage.getItem('_wcloud-settings');
     let firstTime = false
     if (!settings) {

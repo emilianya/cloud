@@ -303,8 +303,9 @@ app.get('/.well-known/security.txt', function (req, res) {
 
 app.get("/my", checkAuth, (req, res) => {
 	let user = req.user._id ? req.user : req.user[0]
-	db.getUserFiles(req.user._id, files => {
-		res.render(`${__dirname}/public/my.ejs`, {files: files, csrfToken: req.csrfToken(), user: user, ww: req.headers["x-requested-with"] == "cloud.wanderers.wc"})
+	db.getUserFiles(req.user._id, (req.query.page || 0) * 21, (files, count) => {
+		if (!files || !count) return res.sendStatus(500);
+		res.render(`${__dirname}/public/my.ejs`, {files, count, csrfToken: req.csrfToken(), user: user, ww: req.headers["x-requested-with"] == "cloud.wanderers.wc"})
 	})
 })
 

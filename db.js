@@ -252,14 +252,18 @@ function getFile(fileId, cb) {
 	}
 }
 
-function getUserFiles(userId, cb) {
-	File.find({uploadedBy: userId}, (err, docs) => {
-		if(err) {
-			cb(null)
-			return console.error(err);
-		}
-		cb(docs)
-	}) //blame copilot if this breaks
+async function getUserFiles(userId, pageLimit, cb) {
+	try {
+		let docs = await File.find({uploadedBy: userId}) //blame copilot if this breaks
+			.sort({uploadedAt: -1})
+			.limit(21)
+			.skip(pageLimit)
+		let docsCount = await File.countDocuments({uploadedBy: userId})
+		cb(docs, docsCount)
+	} catch (e) {
+		cb(null, null)
+		return console.error(e);
+	}
 }
 
 function deleteFile(fileId, user, cb) {
