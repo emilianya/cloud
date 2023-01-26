@@ -401,8 +401,10 @@ app.post("/shortener", (req, res) => {
 			`https://wanderers.cloud/s/${url.shortId}`,
 			`https://toilet.blob.gay/s/${url.shortId}`,
 			`https://trash.vukky.net/s/${url.shortId}`,
+			`https://toilet.vukky.net/s/${url.shortId}`,
 			`https://toilet.brisance.me/s/${url.shortId}`,
-			`https://files.brisance.me/s/${url.shortId}`
+			`https://files.brisance.me/s/${url.shortId}`,
+			`https://my.lettuce.systems/s/${url.shortId}`
 		]
 		res.status(200).send({error: null, urls})
 	})
