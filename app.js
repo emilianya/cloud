@@ -369,6 +369,10 @@ const stringIsAValidUrl = (s) => {
 	}
 };
 
+app.get("/s", (req, res) => {
+	res.render(`${__dirname}/public/shortener.ejs`);
+})
+
 app.get("/s/:id", (req, res) => {
 	let Url = db.getUrl()
 	Url.findOne({shortId: req.params.id}, (err, url) => {

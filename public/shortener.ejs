@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wanderer's Cloud</title>
+        <%- include('./common/darkmode.ejs') %>
+    </head>
+    <body class="bg-gray-900 text-wwhite">
+        <%- include("./common/nav.ejs", {user: null, my: false}); %>
+        <div class="text-center">
+            <form id="sForm">
+                <label>
+                    Enter an URL to shorten:
+                    <br>
+                    <input type="url" class="input-box" placeholder="https://google.com">
+                </label><br><br>
+                <input type="submit" class="button" value="Shorten">
+            </form><br>
+            <div id="resultContainer" class="w-1/2 bg-wdark dark:bg-wwhite mx-5 text-wwhite dark:text-wdark rounded-lg text-center text-2xl mx-auto hidden">
+                <span id="results"></span>
+            </div>
+        </div>
+        <script>
+            document.querySelector("#sForm").onsubmit = (e) => {
+				e.preventDefault();
+				let url = document.querySelector("input[type='url']").value;
+				fetch("/shortener", {
+					method: "POST",
+                    headers: {
+						"Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({url: url})
+                }).then(res => res.json()).then(data => {
+					document.querySelector("#resultContainer").classList.remove("hidden");
+					if (data.error) {
+						return document.querySelector("#results").innerHTML = data.error;
+                    }
+					data.urls.forEach(url => {
+						document.querySelector("#results").innerHTML += `<a href="${url}">${url}</a><br>`;
+					})
+				})
+            }
+        </script>
+    </body>
+</html>
