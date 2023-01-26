@@ -359,6 +359,51 @@ app.post("/api/deletefile", checkUploadAuth, (req, res) => {
 	})
 })
 
+const URL = require("url").URL;
+const stringIsAValidUrl = (s) => {
+	try {
+		new URL(s);
+		return true;
+	} catch (err) {
+		return false;
+	}
+};
+
+app.get("/s/:id", (req, res) => {
+	let Url = db.getUrl()
+	Url.findOne({shortId: req.params.id}, (err, url) => {
+		if (err) return res.status(500).send("Internal server error")
+		if (!url) return res.status(404).send("No such short url exists")
+		res.redirect(url.originalUrl);
+	})
+})
+
+app.post("/shortener", (req, res) => {
+	let url = req.body.url
+	if (!url) return res.status(400).send({error: "No url provided"})
+	if (!stringIsAValidUrl(url)) return res.status(400).send({error: "Invalid URL"})
+	let Url = db.getUrl();
+	let newUrl = new Url({
+		originalUrl: url,
+		shortId: crypto.randomBytes(4).toString("base64url"),
+		createdAt: new Date()
+	})
+	newUrl.save((err, url) => {
+		if (err) {
+			console.error(err)
+			return res.status(500).send({error: "Internal server error"})
+		}
+		let urls = [
+			`https://wanderers.cloud/s/${url.shortId}`,
+			`https://toilet.blob.gay/s/${url.shortId}`,
+			`https://trash.vukky.net/s/${url.shortId}`,
+			`https://toilet.brisance.me/s/${url.shortId}`,
+			`https://files.brisance.me/s/${url.shortId}`
+		]
+		res.status(200).send({error: null, urls})
+	})
+})
+
 app.delete("/file/:id", checkUploadAuth, (req, res ) => {
 	if (!req.params.id) return res.status(400).json({error: "no file id provided"});
 	db.deleteFileShort(req.params.id, req.user, result => {

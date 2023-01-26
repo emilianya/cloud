@@ -12,6 +12,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 var User
 var File
 var Invite
+var Url
 db.once('open', function() {
 	const userSchema = new mongoose.Schema({
 	  email: String,
@@ -43,6 +44,12 @@ db.once('open', function() {
 	  usedAt: Date
 	});
 	Invite = mongoose.model('Invite', inviteSchema);
+	const urlSchema = new mongoose.Schema({
+		originalUrl: String,
+		shortId: String,
+		createdAt: Date
+	})
+	Url = mongoose.model('Url', urlSchema);
 });
 
 
@@ -303,6 +310,9 @@ function deleteFileShort(fileId, user, cb) {
 	})
 }
 
+function getUrl() {
+	return Url;
+}
 
 module.exports = {
 	login,
@@ -319,5 +329,6 @@ module.exports = {
 	getFile,
 	getUserFiles,
 	deleteFile,
-	deleteFileShort
+	deleteFileShort,
+	getUrl
 }
