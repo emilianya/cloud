@@ -62,7 +62,7 @@ app.use(session({
 	expires: Date(Date.now() + (365 * 86400 * 1000))
 }));
 
-app.use(cors({exposedHeaders: ["Content-Disposition"]}))
+app.use(cors({exposedHeaders: ["Content-Disposition", "Content-Range"]}))
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
