@@ -75,6 +75,7 @@ app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err)
 	let csrfWhitelist = ["/upload", "/api/files", "/shortener"]
 	if (req.url.startsWith("/file")) return next();
+	if (req.url.startsWith("/s")) return next();
 	if(!csrfWhitelist.includes(req.url)) return res.send("Couldn't verify Cross Site Request Forgery prevention")
 	if(csrfWhitelist.includes(req.url)) return next()
 })
@@ -96,20 +97,23 @@ app.get('/register', (req, res) => {
 });
 
 app.get("/sharex.sxcu", checkAuth, (req, res) => {
-	let private = req.query?.private;
-	if (!private) private = false;
+	let isPrivate = !!req.query?.private;
+	// I dont think this bit is needed but i wont remove it because i dont want to test it
+	if (!isPrivate) {
+		isPrivate = false;
+	}
 	let content = `{
 	"Version": "13.7.0",
 	"Name": "Wanderer's Cloud",
 	"DestinationType": "ImageUploader, TextUploader, FileUploader",
 	"RequestMethod": "POST",
-	"RequestURL": "https://wanderers.cloud/upload",
+	"RequestURL": "https://upload.wanderers.cloud",
 	"Headers": {
-	"authentication": "${req.user.uploadKey}"${private ? `",\nw-private": "true"` : ""}
+	"authentication": "${req.user.uploadKey}"${isPrivate ? `",\nw-private": "true"` : ""}
 	},
 	"Body": "MultipartFormData",
 	"FileFormName": "upload",
-	"URL": "$response$?preview=true"
+	"URL": "{response}"
 }`		
 	res.contentType("application/octet-stream")
 	res.send(content)
@@ -392,21 +396,41 @@ app.post("/shortener", (req, res) => {
 		shortId: crypto.randomBytes(4).toString("base64url"),
 		createdAt: new Date()
 	})
-	newUrl.save((err, url) => {
+	checkUploadKey(req, (user) => {
+		if (user) newUrl.createdBy = user._id;
+		newUrl.save((err, url) => {
+			if (err) {
+				console.error(err)
+				return res.status(500).send({error: "Internal server error"})
+			}
+			let urls = [
+				`https://wanderers.cloud/s/${url.shortId}`,
+				`https://toilet.blob.gay/s/${url.shortId}`,
+				//`https://trash.vukky.net/s/${url.shortId}`,
+				//`https://toilet.vukky.net/s/${url.shortId}`,
+				`https://toilet.brisance.me/s/${url.shortId}`,
+				`https://files.brisance.me/s/${url.shortId}`,
+				`https://my.lettuce.systems/s/${url.shortId}`,
+				`https://i-ate-the.lettuce.systems/s/${url.shortId}`,
+				`https://i-ated-the.lettuce.systems/s/${url.shortId}`
+			]
+			res.status(200).send({error: null, urls})
+		})
+	})
+})
+
+app.patch("/s/:id", checkUploadAuth, (req, res) => {
+	if (!req.body.newUrl) return res.status(400).json({error: "provide id and newUrl"});
+	let Url = db.getUrl();
+	Url.findOne({shortId: req.params.id, createdBy: req.user._id}, (err, shortUrl) => {
 		if (err) {
-			console.error(err)
-			return res.status(500).send({error: "Internal server error"})
+			console.error(err);
+			return res.sendStatus(500);
 		}
-		let urls = [
-			`https://wanderers.cloud/s/${url.shortId}`,
-			`https://toilet.blob.gay/s/${url.shortId}`,
-			//`https://trash.vukky.net/s/${url.shortId}`,
-			//`https://toilet.vukky.net/s/${url.shortId}`,
-			`https://toilet.brisance.me/s/${url.shortId}`,
-			`https://files.brisance.me/s/${url.shortId}`,
-			`https://my.lettuce.systems/s/${url.shortId}`
-		]
-		res.status(200).send({error: null, urls})
+		if (!shortUrl) res.sendStatus(404);
+		shortUrl.originalUrl = req.body.newUrl
+		shortUrl.save();
+		res.sendStatus(200)
 	})
 })
 

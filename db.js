@@ -47,7 +47,8 @@ db.once('open', function() {
 	const urlSchema = new mongoose.Schema({
 		originalUrl: String,
 		shortId: String,
-		createdAt: Date
+		createdAt: Date,
+		createdBy: String
 	})
 	Url = mongoose.model('Url', urlSchema);
 });
